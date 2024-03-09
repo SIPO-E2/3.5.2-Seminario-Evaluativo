@@ -11,3 +11,15 @@ header {
   border-color: #fff;
   border-style: solid;
 }
+
+.delete-button {
+  width: 34px;
+}
+
+.view-button {
+  margin-bottom: 10px;
+}
+
+.edit-button {
+  margin-bottom: 10px;
+}

@@ -1,7 +1,15 @@
 interface Product {
   id: number;
   title: string;
+  description: string;
   price: number;
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  brand: string;
+  category: string;
+  thumbnail: string; // URL de la imagen
+  images: string[]; // URLs de imágenes adicionales
 }
 
 async function fetchProducts(page: number = 1) {
@@ -26,12 +34,25 @@ function displayProducts(products: Product[]) {
       row.innerHTML = `
         <td>${product.id}</td>
         <td>${product.title}</td>
+        <td>${product.description}</td>
         <td>${product.price}</td>
-        <td>
-            <button class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></button>
-            <button class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i></button>
-            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id}, this)"><i class="fas fa-trash"></i></button>
-        </td>
+        <td>${product.discountPercentage}</td>
+        <td>${product.rating}</td>
+        <td>${product.stock}</td>
+        <td>${product.brand}</td>
+        <td>${product.category}</td>
+        <td><img src="${
+          product.thumbnail
+        }" alt="Thumbnail" width="50" height="50"></td>
+        <td>${product.images.join(", ")}</td>
+        <td class="text-center">
+        <button class="btn btn-primary btn-sm me-2 view-button" ><i class="fas fa-eye"></i></button>
+        <button class="btn btn-secondary btn-sm me-2 edit-button"><i class="fas fa-edit"></i></button>
+        <button class="btn btn-danger btn-sm delete-button" onclick="deleteProduct(${
+          product.id
+        }, this)"><i class="fas fa-trash"></i></button>
+      </td>
+      
       `;
       productList.appendChild(row);
     });
