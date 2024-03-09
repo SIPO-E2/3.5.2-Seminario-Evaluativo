@@ -17,14 +17,18 @@ Sigue estas instrucciones para configurar el proyecto en tu máquina local.
 
 Primero, clona este repositorio a tu máquina local usando el siguiente comando en tu terminal:
 
-- git clone https://github.com/HectorGtz27/3.5.2-Seminario-Evaluativo.git
-- cd directorio-del-proyecto
+```bash
+git clone https://github.com/HectorGtz27/3.5.2-Seminario-Evaluativo.git
+cd directorio-del-proyecto
+```
 
 ### Instalar Dependencias
 
 Una vez que estés dentro del directorio del proyecto, instala las dependencias necesarias ejecutando:
 
-- npm install
+```bash
+npm install
+```
 
 Este comando instalará todas las dependencias listadas en tu archivo `package.json`.
 
@@ -32,7 +36,9 @@ Este comando instalará todas las dependencias listadas en tu archivo `package.j
 
 Este proyecto utiliza TypeScript, por lo tanto, necesitas compilar los archivos `.ts` a `.js`. Ejecuta el siguiente comando:
 
-- npm run build
+```bash
+npm run build
+```
 
 Esto compilará tus archivos TypeScript basándose en la configuración especificada en tu archivo `tsconfig.json`, generalmente generando los archivos JavaScript en el directorio `./dist`.
 
@@ -44,18 +50,24 @@ Para ejecutar y visualizar el proyecto en tu navegador, sigue estos pasos:
 
 Si aún no lo has hecho, instala `http-server` globalmente en tu sistema. Este es un servidor HTTP simple para servir archivos estáticos:
 
-- npm install -g http-server
+```bash
+npm install -g http-server
+```
 
 ### Servir el Proyecto
 
 Ahora, navega al directorio desde donde quieras servir tu proyecto (usualmente donde se encuentra tu `index.html`) y ejecuta:
 
-- http-server
+```bash
+http-server
+```
 
 Si tus archivos están en `./dist`, asegúrate de navegar a ese directorio primero:
 
-- cd dist
-- http-server
+```bash
+cd dist
+http-server
+```
 
 `http-server` iniciará un servidor local y te mostrará la URL para acceder al proyecto desde tu navegador, normalmente algo como `http://127.0.0.1:8080`.
 
