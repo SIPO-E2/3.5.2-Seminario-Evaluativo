@@ -70,8 +70,8 @@ Para mantener el proyecto organizado y facilitar la revisión de cambios, pedimo
 Si aún no tienes el repositorio clonado en tu máquina local, necesitarás hacerlo utilizando el comando `git clone`. Reemplaza `url-del-repositorio` con la URL del repositorio al que eres contribuidor:
 
 ```bash
-git clone url-del-repositorio
-cd nombre-del-repositorio
+git clone https://github.com/HectorGtz27/3.5.2-Seminario-Evaluativo.git
+cd 3.5.2-Seminario-Evaluativo
 ```
 
 ### 2. **Crear una Nueva Rama**
