@@ -61,32 +61,49 @@ Si tus archivos están en `./dist`, asegúrate de navegar a ese directorio prime
 
 ---
 
-### Creando una Nueva Rama
+## Creando una Nueva Rama
 
 Para mantener el proyecto organizado y facilitar la revisión de cambios, pedimos a todos los contribuyentes que trabajen en ramas específicas para cada nueva característica o corrección. Aquí te explicamos cómo hacerlo:
 
-1. Clonar el Repositorio (Si aún no lo has hecho)
-   Si aún no tienes el repositorio clonado en tu máquina local, necesitarás hacerlo utilizando el comando git clone. Reemplaza url-del-repositorio con la URL del repositorio al que eres contribuidor:
+### 1. **Clonar el Repositorio (Si aún no lo has hecho)**
 
-- git clone url-del-repositorio
-- cd nombre-del-repositorio
+Si aún no tienes el repositorio clonado en tu máquina local, necesitarás hacerlo utilizando el comando `git clone`. Reemplaza `url-del-repositorio` con la URL del repositorio al que eres contribuidor:
 
-2. Crear una Nueva Rama
-   Una vez que tienes una copia local del repositorio y estás en el directorio correcto, puedes crear una nueva rama utilizando el comando git branch. Reemplaza nombre-de-la-nueva-rama con el nombre que quieras darle a tu nueva rama:
+```bash
+git clone url-del-repositorio
+cd nombre-del-repositorio
+```
 
-- git branch nombre-de-la-nueva-rama
+### 2. **Crear una Nueva Rama**
 
-in embargo, este comando solo crea la nueva rama. Para empezar a trabajar en ella, necesitarás cambiar a esa rama con el comando git checkout:
+Una vez que tienes una copia local del repositorio y estás en el directorio correcto, puedes crear una nueva rama utilizando el comando git branch. Reemplaza nombre-de-la-nueva-rama con el nombre que quieras darle a tu nueva rama:
 
-- git checkout nombre-de-la-nueva-rama
+```bash
+git branch nombre-de-la-nueva-rama
+```
+
+Sin embargo, este comando solo crea la nueva rama. Para empezar a trabajar en ella, necesitarás cambiar a esa rama con el comando git checkout:
+
+```bash
+git checkout nombre-de-la-nueva-rama
+```
 
 Alternativamente, puedes combinar estos dos pasos en un solo comando utilizando git checkout -b, que creará la nueva rama y cambiará a ella inmediatamente:
 
-- git checkout -b nombre-de-la-nueva-rama
+```bash
+git checkout -b nombre-de-la-nueva-rama
+```
 
-3. Subir la Nueva Rama al Repositorio Remoto
-   Después de hacer cambios en tu nueva rama y hacer commit a esos cambios, querrás subir la rama al repositorio remoto para que otros puedan verla y contribuir a ella. Puedes hacer esto con el comando git push. Como esta rama no existe aún en el repositorio remoto, necesitarás establecer el upstream (río arriba) en tu primer push:
+### 3. **Subir la Nueva Rama al Repositorio Remoto**
 
-- git push --set-upstream origin nombre-de-la-nueva-rama
+Después de hacer cambios en tu nueva rama y hacer commit a esos cambios, querrás subir la rama al repositorio remoto para que otros puedan verla y contribuir a ella. Puedes hacer esto con el comando git push. Como esta rama no existe aún en el repositorio remoto, necesitarás establecer el upstream (río arriba) en tu primer push:
+
+```bash
+git push --set-upstream origin nombre-de-la-nueva-rama
+```
 
 Esto creará la rama en el repositorio remoto y establecerá tu rama local para que siga a la rama remota, lo que facilita futuros push y pull.
+
+```bash
+Asegúrate de reemplazar `url-del-repositorio`, `nombre-del-repositorio`, y `nombre-de-la-nueva-rama` con los valores específicos para tu proyecto. Este formato te ayudará a mantener tu `README.md` organizado y facilitará la comprensión de los contribuyentes sobre cómo trabajar con ramas en el proyecto.
+```
