@@ -5,6 +5,7 @@ interface Product {
 }
 
 async function fetchProducts(page: number = 1) {
+  console.log(`Cargando productos para la página ${page}...`);
   const response = await fetch(
     `https://dummyjson.com/products?skip=${(page - 1) * 10}&limit=10`
   );
@@ -12,44 +13,47 @@ async function fetchProducts(page: number = 1) {
 
   displayProducts(data.products);
   setupPagination(data.total, page);
+  console.log("Hola, mundo!");
 }
 
 function displayProducts(products: Product[]) {
   const productList = document.getElementById("product-list");
   if (productList) {
     productList.innerHTML = ""; // Limpiar la lista de productos existente
-    // Y así sucesivamente para las demás operaciones con productList
-  } // Limpiar la lista de productos existente
 
-  products.forEach((product) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-          <td>${product.id}</td>
-          <td>${product.title}</td>
-          <td>${product.price}</td>
-          <td>
-              <button class="btn btn-primary btn-sm">Ver</button>
-              <button class="btn btn-secondary btn-sm">Modificar</button>
-          </td>
+    products.forEach((product) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${product.id}</td>
+        <td>${product.title}</td>
+        <td>${product.price}</td>
+        <td>
+            <button class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id}, this)"><i class="fas fa-trash"></i></button>
+        </td>
       `;
-    const productList = document.getElementById("product-list")!; // El '!' al final asegura a TypeScript que este elemento no es null.
-  });
+      productList.appendChild(row);
+    });
+  }
 }
 
 function setupPagination(totalItems: number, currentPage: number) {
   const pagination = document.querySelector(".pagination");
-  if (pagination) {
+  if (pagination !== null) {
     pagination.innerHTML = ""; // Limpiar paginación existente
-    // Y así sucesivamente para las demás operaciones con pagination
-  }
-  const totalPages = Math.ceil(totalItems / 10);
+    const totalPages = Math.ceil(totalItems / 10);
 
-  for (let i = 1; i <= totalPages; i++) {
-    const li = document.createElement("li");
-    li.className = `page-item ${i === currentPage ? "active" : ""}`;
-    li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-    li.addEventListener("click", () => fetchProducts(i));
-    const pagination = document.querySelector(".pagination")!; // Igualmente aquí.
+    for (let i = 1; i <= totalPages; i++) {
+      const li = document.createElement("li");
+      li.className = `page-item ${i === currentPage ? "active" : ""}`;
+      li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+      li.addEventListener("click", (event) => {
+        event.preventDefault(); // Evita que la página se recargue
+        fetchProducts(i);
+      });
+      pagination.appendChild(li);
+    }
   }
 }
 
