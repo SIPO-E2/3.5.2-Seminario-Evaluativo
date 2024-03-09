@@ -1,0 +1,19 @@
+/*General Styles */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  height: 5000px;
+}
+
+body {
+  padding: 0;
+  margin: 0 auto;
+}
+
+/* Reset some default margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+}
