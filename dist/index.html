@@ -32,9 +32,9 @@
       <!-- Botón para abrir el modal de añadir producto -->
       <button
         type="button"
-        class="btn btn-primary header-button"
+        class="btn btn-success header-button"
         data-toggle="modal"
-        data-target="#addProductModal"
+        data-target="#productModal"
       >
         Añadir Producto
       </button>
@@ -63,7 +63,7 @@
               </select>
             </div>
 
-            <!-- Añade más campos según sea necesario -->
+            <!-- Añadir más campos según sea necesario -->
             <button
               type="submit"
               class="btn btn-primary"
@@ -79,6 +79,7 @@
             <tr>
               <th>ID</th>
               <th>Título</th>
+              <th>Miniatura</th>
               <th>Descripción</th>
               <th>Precio</th>
               <th>Descuento</th>
@@ -86,7 +87,6 @@
               <th>Stock</th>
               <th>Marca</th>
               <th>Categoría</th>
-              <th>Miniatura</th>
               <th>Imágenes</th>
               <th class="text-center">Acciones</th>
             </tr>
@@ -105,16 +105,15 @@
       <!-- Modal -->
       <div
         class="modal fade"
-        id="addProductModal"
+        id="productModal"
         tabindex="-1"
-        role="dialog"
-        aria-labelledby="modalLabel"
+        aria-labelledby="productModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="modalLabel">Añadir Nuevo Producto</h5>
+              <h5 class="modal-title" id="productModalLabel">Nuevo Producto</h5>
               <button
                 type="button"
                 class="close"
@@ -125,34 +124,94 @@
               </button>
             </div>
             <div class="modal-body">
-              <!-- Aquí va el formulario para añadir el producto -->
-              <form id="add-product-form">
+              <!-- Formulario de producto -->
+              <form id="productForm">
                 <div class="form-group">
-                  <label for="product-title">Título:</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="product-title"
-                    required
-                  />
+                  <label for="title">Título:</label>
+                  <input type="text" class="form-control" id="title" required />
                 </div>
                 <div class="form-group">
-                  <label for="product-price">Precio:</label>
+                  <label for="description">Descripción:</label>
+                  <textarea
+                    class="form-control"
+                    id="description"
+                    required
+                  ></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="price">Precio:</label>
                   <input
                     type="number"
                     class="form-control"
-                    id="product-price"
+                    id="price"
+                    step="0.01"
                     required
                   />
                 </div>
                 <div class="form-group">
-                  <label for="product-category">Categoría:</label>
-                  <select class="form-control" id="product-category" required>
+                  <label for="discountPercentage">Descuento (%):</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="discountPercentage"
+                    step="0.01"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="rating">Calificación:</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="rating"
+                    step="0.1"
+                    max="5"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="stock">Stock:</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="stock"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="brand">Marca:</label>
+                  <input type="text" class="form-control" id="brand" required />
+                </div>
+                <div class="form-group">
+                  <label for="category">Categoría:</label>
+                  <select class="form-control" id="category" required>
                     <option value="">Seleccione una categoría</option>
-                    <!-- Las opciones de categoría van aquí -->
+                    <!-- Opciones de categoría -->
                   </select>
                 </div>
-                <!-- Agrega aquí más campos si son necesarios -->
+                <!-- Campo para el Thumbnail -->
+                <div class="form-group">
+                  <label for="thumbnail">Thumbnail URL:</label>
+                  <input
+                    type="url"
+                    class="form-control"
+                    id="thumbnail"
+                    placeholder="http://example.com/image.jpg"
+                    required
+                  />
+                </div>
+
+                <!-- Campo para las imágenes adicionales -->
+                <div class="form-group">
+                  <label for="images">Imágenes URLs:</label>
+                  <textarea
+                    class="form-control"
+                    id="images"
+                    placeholder="Separe los URLs con comas"
+                    rows="3"
+                  ></textarea>
+                </div>
+                <!-- Aquí se pueden agregar más campos según sea necesario -->
                 <div class="modal-footer">
                   <button
                     type="button"
