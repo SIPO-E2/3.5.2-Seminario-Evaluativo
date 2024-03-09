@@ -16,7 +16,10 @@ async function fetchProducts(page: number = 1) {
 
 function displayProducts(products: Product[]) {
   const productList = document.getElementById("product-list");
-  productList.innerHTML = ""; // Limpiar la lista de productos existente
+  if (productList) {
+    productList.innerHTML = ""; // Limpiar la lista de productos existente
+    // Y así sucesivamente para las demás operaciones con productList
+  } // Limpiar la lista de productos existente
 
   products.forEach((product) => {
     const row = document.createElement("tr");
@@ -29,13 +32,16 @@ function displayProducts(products: Product[]) {
               <button class="btn btn-secondary btn-sm">Modificar</button>
           </td>
       `;
-    productList.appendChild(row);
+    const productList = document.getElementById("product-list")!; // El '!' al final asegura a TypeScript que este elemento no es null.
   });
 }
 
 function setupPagination(totalItems: number, currentPage: number) {
   const pagination = document.querySelector(".pagination");
-  pagination.innerHTML = ""; // Limpiar paginación existente
+  if (pagination) {
+    pagination.innerHTML = ""; // Limpiar paginación existente
+    // Y así sucesivamente para las demás operaciones con pagination
+  }
   const totalPages = Math.ceil(totalItems / 10);
 
   for (let i = 1; i <= totalPages; i++) {
@@ -43,7 +49,7 @@ function setupPagination(totalItems: number, currentPage: number) {
     li.className = `page-item ${i === currentPage ? "active" : ""}`;
     li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
     li.addEventListener("click", () => fetchProducts(i));
-    pagination.appendChild(li);
+    const pagination = document.querySelector(".pagination")!; // Igualmente aquí.
   }
 }
 
