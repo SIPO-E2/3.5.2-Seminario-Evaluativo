@@ -7,65 +7,160 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
-
-    <title>Seminario Evaluativo</title>
     <link
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="../styles/general.css" />
+    <title>Seminario Evaluativo</title>
   </head>
+
+  <!-- Encabezado con Flexbox -->
+  <header>
+    <div
+      class="container d-flex align-items-center justify-content-between py-3"
+    >
+      <!-- Título -->
+      <h1>Productos</h1>
+      <!-- Botón para abrir el modal de añadir producto -->
+      <button
+        type="button"
+        class="btn btn-primary header-button"
+        data-toggle="modal"
+        data-target="#addProductModal"
+      >
+        Añadir Producto
+      </button>
+    </div>
+  </header>
+
   <body>
-    <div class="container">
-      <h1 style="text-align: center; margin-bottom: 40px; margin-top: 20px">
-        Productos
-      </h1>
-      <!-- Formulario para añadir nuevo producto -->
+    <main>
       <div class="container">
-        <h2>Añadir Nuevo Producto</h2>
-        <form id="add-product-form">
-          <div class="form-group">
-            <label for="title">Título:</label>
-            <input type="text" class="form-control" id="title" required />
-          </div>
-          <div class="form-group">
-            <label for="price">Precio:</label>
-            <input type="number" class="form-control" id="price" required />
-          </div>
-          <div class="form-group">
-            <label for="category">Categoría:</label>
-            <input type="text" class="form-control" id="category" required />
-          </div>
-          <!-- Añade más campos según sea necesario -->
-          <button
-            type="submit"
-            class="btn btn-primary"
-            style="margin-bottom: 40px"
-          >
-            Añadir Producto
-          </button>
-        </form>
+        <!-- Formulario para buscar productos -->
+        <div class="container">
+          <h2 style="margin-top: 40px">Buscar Productos</h2>
+          <form id="add-product-form">
+            <div class="form-group">
+              <label for="title">Nombre del Producto:</label>
+              <input type="text" class="form-control" id="title" required />
+            </div>
+            <div class="form-group">
+              <label for="price">Precio Maximo:</label>
+              <input type="number" class="form-control" id="price" required />
+            </div>
+            <div class="form-group">
+              <label for="category">Categoría:</label>
+              <select class="form-control" id="category" required>
+                <option value="">Todas las categorias</option>
+              </select>
+            </div>
+
+            <!-- Añade más campos según sea necesario -->
+            <button
+              type="submit"
+              class="btn btn-primary"
+              style="margin-bottom: 40px; margin-top: 20px"
+            >
+              Buscar
+            </button>
+          </form>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Título</th>
+              <th>Precio</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="product-list">
+            <!-- Los productos se insertarán aquí -->
+          </tbody>
+        </table>
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
+            <!-- La paginación se insertará aquí -->
+          </ul>
+        </nav>
       </div>
 
-      <table class="table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Título</th>
-            <th>Precio</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody id="product-list">
-          <!-- Los productos se insertarán aquí -->
-        </tbody>
-      </table>
-      <nav aria-label="Page navigation">
-        <ul class="pagination">
-          <!-- La paginación se insertará aquí -->
-        </ul>
-      </nav>
-    </div>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="addProductModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="modalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalLabel">Añadir Nuevo Producto</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Aquí va el formulario para añadir el producto -->
+              <form id="add-product-form">
+                <div class="form-group">
+                  <label for="product-title">Título:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="product-title"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="product-price">Precio:</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="product-price"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="product-category">Categoría:</label>
+                  <select class="form-control" id="product-category" required>
+                    <option value="">Seleccione una categoría</option>
+                    <!-- Las opciones de categoría van aquí -->
+                  </select>
+                </div>
+                <!-- Agrega aquí más campos si son necesarios -->
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Cerrar
+                  </button>
+                  <button type="submit" class="btn btn-primary">
+                    Guardar Producto
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
 
     <script src="./script.js"></script>
+    <!-- Incluir Bootstrap JS y sus dependencias -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>
 </html>
