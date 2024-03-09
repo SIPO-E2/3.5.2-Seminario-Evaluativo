@@ -29,9 +29,9 @@ function displayProducts(products) {
         <td>${product.title}</td>
         <td>${product.price}</td>
         <td>
-            <button class="btn btn-primary btn-sm">Ver</button>
-            <button class="btn btn-secondary btn-sm">Modificar</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id}, this)">Borrar</button>
+            <button class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id}, this)"><i class="fas fa-trash"></i></button>
         </td>
       `;
             productList.appendChild(row);
