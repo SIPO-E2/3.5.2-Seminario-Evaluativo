@@ -27,6 +27,7 @@ function displayProducts(products) {
             row.innerHTML = `
         <td>${product.id}</td>
         <td>${product.title}</td>
+        <td><img src="${product.thumbnail}" alt="Thumbnail" width="50" height="50"></td>
         <td>${product.description}</td>
         <td>${product.price}</td>
         <td>${product.discountPercentage}</td>
@@ -34,8 +35,7 @@ function displayProducts(products) {
         <td>${product.stock}</td>
         <td>${product.brand}</td>
         <td>${product.category}</td>
-        <td><img src="${product.thumbnail}" alt="Thumbnail" width="50" height="50"></td>
-        <td>${product.images.join(", ")}</td>
+        <td>${generateImageElements(product.images)}</td>
         <td class="text-center">
         <button class="btn btn-primary btn-sm me-2 view-button" ><i class="fas fa-eye"></i></button>
         <button class="btn btn-secondary btn-sm me-2 edit-button"><i class="fas fa-edit"></i></button>
@@ -46,6 +46,11 @@ function displayProducts(products) {
             productList.appendChild(row);
         });
     }
+}
+function generateImageElements(images) {
+    return images
+        .map((imageUrl) => `<img src="${imageUrl}" alt="Product Image" width="50" height="50" class="mr-2">`)
+        .join("");
 }
 function setupPagination(totalItems, currentPage) {
     const pagination = document.querySelector(".pagination");
