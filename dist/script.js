@@ -20,7 +20,7 @@ function fetchProducts() {
 }
 function displayProducts(products) {
     const productList = document.getElementById("product-list");
-    if (productList !== null) {
+    if (productList) {
         productList.innerHTML = ""; // Limpiar la lista de productos existente
         products.forEach((product) => {
             const row = document.createElement("tr");
@@ -31,6 +31,7 @@ function displayProducts(products) {
         <td>
             <button class="btn btn-primary btn-sm">Ver</button>
             <button class="btn btn-secondary btn-sm">Modificar</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id}, this)">Borrar</button>
         </td>
       `;
             productList.appendChild(row);
