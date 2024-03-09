@@ -10,45 +10,48 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 function fetchProducts() {
     return __awaiter(this, arguments, void 0, function* (page = 1) {
+        console.log(`Cargando productos para la página ${page}...`);
         const response = yield fetch(`https://dummyjson.com/products?skip=${(page - 1) * 10}&limit=10`);
         const data = yield response.json();
         displayProducts(data.products);
         setupPagination(data.total, page);
+        console.log("Hola, mundo!");
     });
 }
 function displayProducts(products) {
     const productList = document.getElementById("product-list");
-    if (productList) {
+    if (productList !== null) {
         productList.innerHTML = ""; // Limpiar la lista de productos existente
-        // Y así sucesivamente para las demás operaciones con productList
-    } // Limpiar la lista de productos existente
-    products.forEach((product) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${product.id}</td>
-          <td>${product.title}</td>
-          <td>${product.price}</td>
-          <td>
-              <button class="btn btn-primary btn-sm">Ver</button>
-              <button class="btn btn-secondary btn-sm">Modificar</button>
-          </td>
+        products.forEach((product) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+        <td>${product.id}</td>
+        <td>${product.title}</td>
+        <td>${product.price}</td>
+        <td>
+            <button class="btn btn-primary btn-sm">Ver</button>
+            <button class="btn btn-secondary btn-sm">Modificar</button>
+        </td>
       `;
-        const productList = document.getElementById("product-list"); // El '!' al final asegura a TypeScript que este elemento no es null.
-    });
+            productList.appendChild(row);
+        });
+    }
 }
 function setupPagination(totalItems, currentPage) {
     const pagination = document.querySelector(".pagination");
-    if (pagination) {
+    if (pagination !== null) {
         pagination.innerHTML = ""; // Limpiar paginación existente
-        // Y así sucesivamente para las demás operaciones con pagination
-    }
-    const totalPages = Math.ceil(totalItems / 10);
-    for (let i = 1; i <= totalPages; i++) {
-        const li = document.createElement("li");
-        li.className = `page-item ${i === currentPage ? "active" : ""}`;
-        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-        li.addEventListener("click", () => fetchProducts(i));
-        const pagination = document.querySelector(".pagination"); // Igualmente aquí.
+        const totalPages = Math.ceil(totalItems / 10);
+        for (let i = 1; i <= totalPages; i++) {
+            const li = document.createElement("li");
+            li.className = `page-item ${i === currentPage ? "active" : ""}`;
+            li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+            li.addEventListener("click", (event) => {
+                event.preventDefault(); // Evita que la página se recargue
+                fetchProducts(i);
+            });
+            pagination.appendChild(li);
+        }
     }
 }
 window.addEventListener("DOMContentLoaded", (event) => {
