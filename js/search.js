@@ -32,12 +32,12 @@ function loadCategories() {
 function searchProducts(name, price, category) {
     return __awaiter(this, void 0, void 0, function* () {
         let url = `https://dummyjson.com/products/search?q=${name}`;
-        setIsSearchActive(true);
         if (category === "All") {
             setIsSearchActive(false);
             yield fetchProducts();
         }
         else {
+            setIsSearchActive(true);
             try {
                 const response = yield fetch(url);
                 const data = yield response.json();

@@ -50,12 +50,12 @@ export const loadTable = (products) => {
 export const updatePaginationButtons = () => {
     const prevPageButton = document.getElementById("prevPage");
     const nextPageButton = document.getElementById("nextPage");
-    // Calcula el total de páginas basado en el número actual de productos visibles
     const totalNumberOfPages = Math.ceil(currentProducts.length / itemsPerPage);
-    // Determina si el botón "Previous" debe estar habilitado
-    prevPageButton.disabled = currentPage <= 0;
-    // Determina si el botón "Next" debe estar habilitado
-    nextPageButton.disabled = currentPage >= totalNumberOfPages - 1;
+    // Si "isSearchActive" es false y hay más de una página, o si se selecciona "All categories", permitir paginación.
+    const allowPagination = isSearchActive ? totalNumberOfPages > 1 : true;
+    prevPageButton.disabled = !allowPagination || currentPage === 0;
+    nextPageButton.disabled =
+        !allowPagination || currentPage >= totalNumberOfPages - 1;
 };
 export const fetchProducts = () => __awaiter(void 0, void 0, void 0, function* () {
     const response = yield fetch("https://dummyjson.com/products");

@@ -63,15 +63,14 @@ export const updatePaginationButtons = (): void => {
   const nextPageButton = document.getElementById(
     "nextPage"
   ) as HTMLButtonElement;
-
-  // Calcula el total de páginas basado en el número actual de productos visibles
   const totalNumberOfPages = Math.ceil(currentProducts.length / itemsPerPage);
 
-  // Determina si el botón "Previous" debe estar habilitado
-  prevPageButton.disabled = currentPage <= 0;
+  // Si "isSearchActive" es false y hay más de una página, o si se selecciona "All categories", permitir paginación.
+  const allowPagination = isSearchActive ? totalNumberOfPages > 1 : true;
 
-  // Determina si el botón "Next" debe estar habilitado
-  nextPageButton.disabled = currentPage >= totalNumberOfPages - 1;
+  prevPageButton.disabled = !allowPagination || currentPage === 0;
+  nextPageButton.disabled =
+    !allowPagination || currentPage >= totalNumberOfPages - 1;
 };
 
 export const fetchProducts = async (): Promise<void> => {

@@ -35,12 +35,12 @@ async function searchProducts(
   category: string
 ): Promise<void> {
   let url = `https://dummyjson.com/products/search?q=${name}`;
-  setIsSearchActive(true);
 
   if (category === "All") {
     setIsSearchActive(false);
     await fetchProducts();
   } else {
+    setIsSearchActive(true);
     try {
       const response = await fetch(url);
       const data = await response.json();
