@@ -34,36 +34,50 @@ async function searchProducts(
   price: number,
   category: string
 ): Promise<void> {
-  let url = `https://dummyjson.com/products/search?q=${name}`;
+  setIsSearchActive(true);
+
+  let filteredProducts: Product[] = [];
 
   if (category === "All") {
-    setIsSearchActive(false);
-    await fetchProducts();
+    const response = await fetch("https://dummyjson.com/products");
+    const data = await response.json();
+    filteredProducts = data.products;
+
+    // Aplica los filtros de nombre y precio aquí, incluso si la categoría es "All"
+    if (name) {
+      filteredProducts = filteredProducts.filter((product) =>
+        product.title.toLowerCase().includes(name.toLowerCase())
+      );
+    }
+    if (price > 0) {
+      filteredProducts = filteredProducts.filter(
+        (product) => product.price <= price
+      );
+    }
+
+    setIsSearchActive(false); // Considerar qué valor debería tener esto basado en tu lógica
   } else {
-    setIsSearchActive(true);
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      let filteredProducts: Product[] = data.products;
+    // La lógica existente para manejar búsquedas específicas de categoría
+    const url = `https://dummyjson.com/products/search?q=${name}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    filteredProducts = data.products;
 
-      if (price > 0) {
-        filteredProducts = filteredProducts.filter(
-          (product: Product) => product.price <= price
-        );
-      }
-      if (category && category !== "All") {
-        filteredProducts = filteredProducts.filter(
-          (product: Product) => product.category === category
-        );
-      }
-
-      setCurrentProducts(filteredProducts);
-      loadTable(filteredProducts.slice(0, itemsPerPage));
-      updatePaginationButtons();
-    } catch (error) {
-      console.error("Error searching products:", error);
+    if (price > 0) {
+      filteredProducts = filteredProducts.filter(
+        (product) => product.price <= price
+      );
+    }
+    if (category && category !== "All") {
+      filteredProducts = filteredProducts.filter(
+        (product) => product.category === category
+      );
     }
   }
+
+  setCurrentProducts(filteredProducts);
+  loadTable(filteredProducts.slice(0, itemsPerPage));
+  updatePaginationButtons();
 }
 
 document.getElementById("searchForm")?.addEventListener("submit", (e) => {

@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var _a;
-import { loadTable, updatePaginationButtons, fetchProducts, itemsPerPage, setIsSearchActive, setCurrentProducts, } from "./app.js";
+import { loadTable, updatePaginationButtons, itemsPerPage, setIsSearchActive, setCurrentProducts, } from "./app.js";
 function loadCategories() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -31,31 +31,37 @@ function loadCategories() {
 }
 function searchProducts(name, price, category) {
     return __awaiter(this, void 0, void 0, function* () {
-        let url = `https://dummyjson.com/products/search?q=${name}`;
+        setIsSearchActive(true);
+        let filteredProducts = [];
         if (category === "All") {
-            setIsSearchActive(false);
-            yield fetchProducts();
+            const response = yield fetch("https://dummyjson.com/products");
+            const data = yield response.json();
+            filteredProducts = data.products;
+            // Aplica los filtros de nombre y precio aquí, incluso si la categoría es "All"
+            if (name) {
+                filteredProducts = filteredProducts.filter((product) => product.title.toLowerCase().includes(name.toLowerCase()));
+            }
+            if (price > 0) {
+                filteredProducts = filteredProducts.filter((product) => product.price <= price);
+            }
+            setIsSearchActive(false); // Considerar qué valor debería tener esto basado en tu lógica
         }
         else {
-            setIsSearchActive(true);
-            try {
-                const response = yield fetch(url);
-                const data = yield response.json();
-                let filteredProducts = data.products;
-                if (price > 0) {
-                    filteredProducts = filteredProducts.filter((product) => product.price <= price);
-                }
-                if (category && category !== "All") {
-                    filteredProducts = filteredProducts.filter((product) => product.category === category);
-                }
-                setCurrentProducts(filteredProducts);
-                loadTable(filteredProducts.slice(0, itemsPerPage));
-                updatePaginationButtons();
+            // La lógica existente para manejar búsquedas específicas de categoría
+            const url = `https://dummyjson.com/products/search?q=${name}`;
+            const response = yield fetch(url);
+            const data = yield response.json();
+            filteredProducts = data.products;
+            if (price > 0) {
+                filteredProducts = filteredProducts.filter((product) => product.price <= price);
             }
-            catch (error) {
-                console.error("Error searching products:", error);
+            if (category && category !== "All") {
+                filteredProducts = filteredProducts.filter((product) => product.category === category);
             }
         }
+        setCurrentProducts(filteredProducts);
+        loadTable(filteredProducts.slice(0, itemsPerPage));
+        updatePaginationButtons();
     });
 }
 (_a = document.getElementById("searchForm")) === null || _a === void 0 ? void 0 : _a.addEventListener("submit", (e) => {
