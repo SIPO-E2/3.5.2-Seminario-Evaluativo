@@ -1,22 +1,22 @@
-const tableBody = document.querySelector('#table-body');
+const tableBody = document.querySelector("#table-body");
 const itemsPerPage = 10;
 let currentPage = 0;
 // Fetch products function
 const fetchProducts = () => {
-    fetch('https://dummyjson.com/products')
-        .then(response => response.json())
+    fetch("https://dummyjson.com/products")
+        .then((response) => response.json())
         .then((data) => {
         const products = data.products;
         console.log(products);
         loadTable(products);
-        // Pagination buttons event listeners
-        document.getElementById('prevPage').addEventListener('click', () => {
+        // Pagination buttons
+        document.getElementById("prevPage").addEventListener("click", () => {
             if (currentPage > 0) {
                 currentPage--;
                 loadTable(products);
             }
         });
-        document.getElementById('nextPage').addEventListener('click', () => {
+        document.getElementById("nextPage").addEventListener("click", () => {
             const maxPage = Math.ceil(products.length / itemsPerPage) - 1;
             if (currentPage < maxPage) {
                 currentPage++;
@@ -24,19 +24,20 @@ const fetchProducts = () => {
             }
         });
     })
-        .catch(error => {
-        console.error('Error fetching products:', error);
+        .catch((error) => {
+        console.error("Error fetching products:", error);
     });
 };
 // Load table function
 const loadTable = (products) => {
+    console.log("HOLAAAAAAA");
     if (tableBody) {
-        tableBody.innerHTML = '';
+        tableBody.innerHTML = "";
         const startIndex = currentPage * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         const productsToShow = products.slice(startIndex, endIndex);
-        productsToShow.forEach(item => {
-            const row = document.createElement('tr');
+        productsToShow.forEach((item) => {
+            const row = document.createElement("tr");
             const cells = `
                     <td>${item.id}</td>
                     <td>${item.title}</td>
