@@ -148,7 +148,7 @@ document.getElementById("nextPage")?.addEventListener("click", () => {
       }
 
       const newProduct = {
-        product: productModalNew.value.trim(),
+        title: productModalNew.value.trim(),
         description: descriptionModalNew.value.trim(),
         price: Number(priceModalNew.value),
         discountPercentage: Number(discountModalNew.value),
@@ -156,8 +156,8 @@ document.getElementById("nextPage")?.addEventListener("click", () => {
         stock: Number(stockModalNew.value),
         brand: brandModalNew.value.trim(),
         category: categoryModalNew.value.trim(),
-        thumbnailURL: thumbnailModalNew.value.trim(),
-        imagesURL: imagesModalNew.value.trim(),
+        thumbnail: thumbnailModalNew.value.trim(),
+        images: imagesModalNew.value.split(',').map(url => url.trim()),
       };
 
       try {
@@ -169,15 +169,20 @@ document.getElementById("nextPage")?.addEventListener("click", () => {
           body: JSON.stringify(newProduct),
         });
 
+        const responseData = await response.json();
+
         if (response.ok) {
-          alert("Product added successfully.");
+          alert(`Product added successfully. Product ID: ${responseData.id}`);
         } else {
           alert("Failed to add product.");
+          alert(`Failed to add product. Server responded with status: ${response.status}`);
         }
       } catch (error) {
         alert("An error occurred while adding the product.");
       }
     };
 
+document.getElementById("addProductBtn")?.addEventListener("click", addProduct);
+document.addEventListener("DOMContentLoaded", fetchProducts);
 document.getElementById("addProductBtn")?.addEventListener("click", addProduct);    
 document.addEventListener("DOMContentLoaded", fetchProducts);
