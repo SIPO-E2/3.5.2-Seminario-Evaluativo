@@ -1,8 +1,4 @@
 {
-  "scripts": {
-    "build": "webpack --mode production",
-    "start": "webpack serve --mode development --open"
-  },
   "dependencies": {
     "@types/bootstrap": "^5.2.10"
   },
