@@ -75,6 +75,8 @@ export const updatePaginationButtons = (): void => {
     !allowPagination || currentPage >= totalNumberOfPages - 1;
 };
 
+
+
 export const fetchProducts = async (): Promise<void> => {
   const response = await fetch("https://dummyjson.com/products");
   const data = await response.json();
