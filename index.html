@@ -47,12 +47,7 @@
                 </select>
                 <button type="submit" class="btn btn-primary">Buscar</button>
               </form>
-              <button
-                type="button"
-                class="btn btn-danger ms-3"
-                id="addNewProductNavbarBtn"
-				data-toggle="modalNewProductLabel"
-              >
+              <button type="button" class="btn btn-danger ms-3" id="addNewProductNavbarBtn" data-bs-toggle="modal" data-bs-target="#modalNewProduct">
                 Add product
               </button>
 			  
@@ -223,14 +218,14 @@
 							</div>
 							<div class="col">
 								<label for="CategoryModalNew" class="form-label">Category</label>
-								<Select id="CategoryModalNew" class="form-control" required>
+								<select id="CategoryModalNew" class="form-select" required>
 									<option value="1">laptops</option>
 									<option value="2">smartphones</option>
 									<option value="3">fragrances</option>
 									<option value="4">skincare</option>
 									<option value="5">groceries</option>
 									<option value="6">home-decoration</option>
-								</Select>
+								</select>
 							</div>
 						</div>
 						<div class="row mt-3">
@@ -251,7 +246,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" id="addProductBtn">Add product</button>
+					<button type="button" class="btn btn-primary" id="addProductBtn" onclick="window.addProduct()">Add product</button>
 				</div>
 			</div>
 		</div>

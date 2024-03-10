@@ -4,6 +4,7 @@ declare global {
     showModal: (id: number) => void;
     deleteProduct: (id: number) => void;
     loadTable: (products: Product[]) => void;
+    addProduct: () => void;
   }
 }
 // Importación de la clase Product
@@ -175,3 +176,7 @@ document.getElementById("nextPage")?.addEventListener("click", () => {
     document.getElementById("addProductBtn")?.addEventListener("click", addProduct);
 
 document.addEventListener("DOMContentLoaded", fetchProducts);
+window.addProduct = async () => {
+  // Collect product data from modal inputs
+  // Call the addProduct function from addProduct.ts with the new product data
+};
