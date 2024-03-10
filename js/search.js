@@ -7,17 +7,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-// Función para cargar las categorías en el selector del formulario de búsqueda
+var _a;
+// Asume que las siguientes variables son exportadas desde app.ts o definidas de nuevo aquí de manera similar
+let currentProducts = [];
+let isSearchActive = false;
 function loadCategories() {
     return __awaiter(this, void 0, void 0, function* () {
         const response = yield fetch("https://dummyjson.com/products/categories");
         const categories = yield response.json();
         const select = document.getElementById("searchCategory");
         categories.forEach((category) => {
-            const option = document.createElement("option");
-            option.value = category;
-            option.textContent = category;
-            select.appendChild(option);
+            const option = new Option(category, category);
+            select.add(option);
         });
     });
 }
@@ -26,68 +27,26 @@ function searchProducts(name, price, category) {
         let url = `https://dummyjson.com/products/search?q=${name}`;
         const response = yield fetch(url);
         const data = yield response.json();
-        let products = data.products;
-        // Filtrar por precio si se proporcionó
+        let filteredProducts = data.products;
         if (price > 0) {
-            products = products.filter((product) => product.price <= price);
+            filteredProducts = filteredProducts.filter((product) => product.price <= price);
         }
-        // Filtrar por categoría si se proporcionó
-        if (category) {
-            products = products.filter((product) => product.category === category);
+        if (category && category !== "All") {
+            filteredProducts = filteredProducts.filter((product) => product.category === category);
         }
-        updateTableWithProducts(products);
+        currentProducts = filteredProducts;
+        isSearchActive = true;
+        window.loadTable(filteredProducts); // Muestra todos los productos filtrados
     });
 }
-// Event listener para el formulario de búsqueda
-document.getElementById("searchForm").addEventListener("submit", (e) => {
+(_a = document.getElementById("searchForm")) === null || _a === void 0 ? void 0 : _a.addEventListener("submit", (e) => {
     e.preventDefault();
     const name = document.getElementById("searchName")
         .value;
-    const price = +document.getElementById("searchPrice")
-        .value;
+    const price = parseFloat(document.getElementById("searchPrice").value);
     const category = document.getElementById("searchCategory").value;
     searchProducts(name, price, category);
 });
-function updateTableWithProducts(products) {
-    const tableBody = document.querySelector("#table-body");
-    if (tableBody) {
-        tableBody.innerHTML = ""; // Limpiar tabla antes de añadir los nuevos resultados
-        products.forEach((product) => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-        <td>${product.id}</td>
-        <td>${product.title}</td>
-        <td><img src="${product.thumbnail}" alt="${product.title}" style="width: 50px; height: auto;"></td>
-        <td>${product.description}</td>
-        <td>${product.price}</td>
-        <td>${product.discountPercentage}%</td>
-        <td>${product.rating}</td>
-        <td>${product.stock}</td>
-        <td>${product.brand}</td>
-        <td>${product.category}</td>
-        <td>
-          <div class="d-flex gap-2">
-            <button class="btn btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></button>
-            <button class="btn btn-outline-warning"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-            <button class="btn btn-outline-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
-          </div>
-        </td>
-      `;
-            // Ahora, añade los manejadores de eventos para cada botón
-            const buttons = row.querySelectorAll("button");
-            buttons[0].addEventListener("click", () => window.showModal(product.id));
-            buttons[1].addEventListener("click", () => {
-                /* Lógica para editar */
-            });
-            buttons[2].addEventListener("click", () => window.deleteProduct(product.id));
-            tableBody.appendChild(row);
-        });
-    }
-    else {
-        console.error("Table body not found.");
-    }
-}
-// Cargar las categorías cuando se carga el documento
 document.addEventListener("DOMContentLoaded", () => {
     loadCategories();
 });
