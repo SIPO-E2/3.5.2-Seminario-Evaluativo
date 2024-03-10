@@ -44,12 +44,12 @@ export const loadTable = (products: Product[]): void => {
         <td>${item.brand}</td>
         <td>${item.category}</td>
         <td>
-          <div class="d-flex gap-2">
-            <button class="btn btn-outline-primary">View</button>
-            <button class="btn btn-outline-secondary">Edit</button>
-            <button class="btn btn-outline-danger">Delete</button>
-          </div>
-        </td>`;
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-dark" onclick=""><i class="fa fa-eye" aria-hidden="true"></i></button>
+            <button class="btn btn-outline-warning" onclick=""><i class="fa fa-pencil" aria-hidden="true"></i></button>
+            <button class="btn btn-outline-danger" onclick=""><i class="fa fa-times" aria-hidden="true"></i></button>
+        </div>
+    </td>`;
       tableBody.appendChild(row);
     });
   }
