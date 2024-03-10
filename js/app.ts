@@ -56,6 +56,7 @@ export const loadTable = (products: Product[]): void => {
   updatePaginationButtons();
 };
 
+
 export const updatePaginationButtons = (): void => {
   const prevPageButton = document.getElementById(
     "prevPage"
@@ -102,5 +103,75 @@ document.getElementById("nextPage")?.addEventListener("click", () => {
     updatePaginationButtons();
   }
 });
+
+
+    const addProduct = async (): Promise<void> => {
+      const productModalNew = document.getElementById("ProductModalNew") as HTMLInputElement;
+      const descriptionModalNew = document.getElementById("DescriptionModalNew") as HTMLInputElement;
+      const priceModalNew = document.getElementById("PriceModalNew") as HTMLInputElement;
+      const discountModalNew = document.getElementById("DiscountModalNew") as HTMLInputElement;
+      const ratingModalNew = document.getElementById("RatingModalNew") as HTMLInputElement;
+      const stockModalNew = document.getElementById("StockModalNew") as HTMLInputElement;
+      const brandModalNew = document.getElementById("BrandModalNew") as HTMLInputElement;
+      const categoryModalNew = document.getElementById("CategoryModalNew") as HTMLSelectElement;
+      const thumbnailModalNew = document.getElementById("ThumbnailModalNew") as HTMLInputElement;
+      const imagesModalNew = document.getElementById("ImagesModalNew") as HTMLInputElement;
+
+      // Validate required fields
+      if (
+        productModalNew.value.trim() === "" ||
+        descriptionModalNew.value.trim() === "" ||
+        priceModalNew.value.trim() === "" ||
+        discountModalNew.value.trim() === "" ||
+        ratingModalNew.value.trim() === "" ||
+        stockModalNew.value.trim() === "" ||
+        brandModalNew.value.trim() === "" ||
+        categoryModalNew.value.trim() === "" ||
+        thumbnailModalNew.value.trim() === "" ||
+        imagesModalNew.value.trim() === ""
+      ) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+
+      // Validate field values
+      if (isNaN(Number(priceModalNew.value)) || isNaN(Number(discountModalNew.value)) || isNaN(Number(ratingModalNew.value)) || isNaN(Number(stockModalNew.value))) {
+        alert("Invalid field values.");
+        return;
+      }
+
+      const newProduct = {
+        product: productModalNew.value.trim(),
+        description: descriptionModalNew.value.trim(),
+        price: Number(priceModalNew.value),
+        discountPercentage: Number(discountModalNew.value),
+        rating: Number(ratingModalNew.value),
+        stock: Number(stockModalNew.value),
+        brand: brandModalNew.value.trim(),
+        category: categoryModalNew.value.trim(),
+        thumbnailURL: thumbnailModalNew.value.trim(),
+        imagesURL: imagesModalNew.value.trim(),
+      };
+
+      try {
+        const response = await fetch("https://dummyjson.com/products/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newProduct),
+        });
+
+        if (response.ok) {
+          alert("Product added successfully.");
+        } else {
+          alert("Failed to add product.");
+        }
+      } catch (error) {
+        alert("An error occurred while adding the product.");
+      }
+    };
+
+    document.getElementById("addProductBtn")?.addEventListener("click", addProduct);
 
 document.addEventListener("DOMContentLoaded", fetchProducts);
