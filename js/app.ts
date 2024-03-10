@@ -103,5 +103,4 @@ document.getElementById("nextPage")?.addEventListener("click", () => {
   }
 });
 
-// Initialize products table on document load
 document.addEventListener("DOMContentLoaded", fetchProducts);

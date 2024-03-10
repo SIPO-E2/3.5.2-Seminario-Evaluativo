@@ -84,5 +84,4 @@ export const fetchProducts = () => __awaiter(void 0, void 0, void 0, function* (
         updatePaginationButtons();
     }
 });
-// Initialize products table on document load
 document.addEventListener("DOMContentLoaded", fetchProducts);
