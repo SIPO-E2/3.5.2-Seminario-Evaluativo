@@ -35,7 +35,6 @@ function searchProducts(name, price, category) {
         if (category) {
             products = products.filter((product) => product.category === category);
         }
-        // Continúa con la actualización de la tabla como antes
         updateTableWithProducts(products);
     });
 }
@@ -66,7 +65,21 @@ function updateTableWithProducts(products) {
         <td>${product.stock}</td>
         <td>${product.brand}</td>
         <td>${product.category}</td>
+        <td>
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></button>
+            <button class="btn btn-outline-warning"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+            <button class="btn btn-outline-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
+          </div>
+        </td>
       `;
+            // Ahora, añade los manejadores de eventos para cada botón
+            const buttons = row.querySelectorAll("button");
+            buttons[0].addEventListener("click", () => window.showModal(product.id));
+            buttons[1].addEventListener("click", () => {
+                /* Lógica para editar */
+            });
+            buttons[2].addEventListener("click", () => window.deleteProduct(product.id));
             tableBody.appendChild(row);
         });
     }
