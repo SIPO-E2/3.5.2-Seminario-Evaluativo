@@ -19,28 +19,16 @@ Primero, clona este repositorio a tu máquina local usando el siguiente comando 
 
 ```bash
 git clone https://github.com/HectorGtz27/3.5.2-Seminario-Evaluativo.git
-cd directorio-del-proyecto
+cd 3.5.2-Seminario-Evaluativo
 ```
-
-### Instalar Dependencias
-
-Una vez que estés dentro del directorio del proyecto, instala las dependencias necesarias ejecutando:
-
-```bash
-npm install
-```
-
-Este comando instalará todas las dependencias listadas en tu archivo `package.json`.
 
 ### Compilar TypeScript a JavaScript
 
 Este proyecto utiliza TypeScript, por lo tanto, necesitas compilar los archivos `.ts` a `.js`. Ejecuta el siguiente comando:
 
 ```bash
-npm run build
+tsc
 ```
-
-Esto compilará tus archivos TypeScript basándose en la configuración especificada en tu archivo `tsconfig.json`, generalmente generando los archivos JavaScript en el directorio `./dist`.
 
 ## Ejecutar el Proyecto Localmente
 
@@ -62,10 +50,7 @@ Ahora, navega al directorio desde donde quieras servir tu proyecto (usualmente d
 http-server
 ```
 
-Si tus archivos están en `./dist`, asegúrate de navegar a ese directorio primero:
-
 ```bash
-cd dist
 http-server
 ```
 
