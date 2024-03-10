@@ -4,7 +4,7 @@ import { currentProducts, loadTable, itemsPerPage } from "./app.js";
 
   // Aquí puedes agregar las validaciones necesarias para tu producto
   // Por ejemplo, verificar que el título no esté vacío
-function validateProduct(product: Product): boolean {
+export function validateProduct(product: Product): boolean {
   if (!product.title) {
     alert("El título del producto es obligatorio.");
     return false;
@@ -23,6 +23,36 @@ function validateProduct(product: Product): boolean {
   return true;
 }
 
+export async function addProduct(): Promise<void> {
+  const productModalNew = document.getElementById("ProductModalNew") as HTMLInputElement;
+  const descriptionModalNew = document.getElementById("DescriptionModalNew") as HTMLInputElement;
+  const priceModalNew = document.getElementById("PriceModalNew") as HTMLInputElement;
+  const discountModalNew = document.getElementById("DiscountModalNew") as HTMLInputElement;
+  const ratingModalNew = document.getElementById("RatingModalNew") as HTMLInputElement;
+  const stockModalNew = document.getElementById("StockModalNew") as HTMLInputElement;
+  const brandModalNew = document.getElementById("BrandModalNew") as HTMLInputElement;
+  const categoryModalNew = document.getElementById("CategoryModalNew") as HTMLSelectElement;
+  const thumbnailModalNew = document.getElementById("ThumbnailModalNew") as HTMLInputElement;
+  const imagesModalNew = document.getElementById("ImagesModalNew") as HTMLInputElement;
+
+  const product = new Product(
+    Date.now(), // Using current timestamp as a mock ID
+    productModalNew.value.trim(),
+    descriptionModalNew.value.trim(),
+    parseFloat(priceModalNew.value),
+    parseFloat(discountModalNew.value),
+    parseFloat(ratingModalNew.value),
+    parseInt(stockModalNew.value),
+    brandModalNew.value.trim(),
+    categoryModalNew.value,
+    thumbnailModalNew.value.trim(),
+    imagesModalNew.value.split(',') // Assuming images are comma-separated
+  );
+
+  if (!validateProduct(product)) {
+    return;
+  }
+
 // Función para añadir un producto
 export async function addProduct(product: Product): Promise<void> {
   if (!validateProduct(product)) {
@@ -34,7 +64,18 @@ export async function addProduct(product: Product): Promise<void> {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(product),
+    body: JSON.stringify({
+      title: product.title,
+      description: product.description,
+      price: product.price,
+      discountPercentage: product.discountPercentage,
+      rating: product.rating,
+      stock: product.stock,
+      brand: product.brand,
+      category: product.category,
+      thumbnail: product.thumbnail,
+      images: product.images
+    }),
   });
 
   if (response.ok) {

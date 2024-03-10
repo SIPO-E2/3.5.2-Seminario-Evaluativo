@@ -8,7 +8,8 @@ declare global {
   }
 }
 // Importación de la clase Product
-import { Product } from "./clases.js";
+import { Product, validateProduct } from "./clases.js";
+import { addProduct } from './addProduct.ts';
 
 export let currentProducts: Product[] = [];
 export let isSearchActive: boolean = false;
@@ -176,7 +177,7 @@ document.getElementById("nextPage")?.addEventListener("click", () => {
     document.getElementById("addProductBtn")?.addEventListener("click", addProduct);
 
 document.addEventListener("DOMContentLoaded", fetchProducts);
-window.addProduct = async () => {
+window.addProduct = addProduct;
   // Collect product data from modal inputs
   // Call the addProduct function from addProduct.ts with the new product data
 };
