@@ -19,7 +19,6 @@ export function setIsSearchActive(value) {
 export function setCurrentProducts(products) {
     currentProducts = products;
 }
-// This function updates the table body with product rows
 export const loadTable = (products) => {
     if (tableBody) {
         tableBody.innerHTML = "";
@@ -48,37 +47,41 @@ export const loadTable = (products) => {
     }
     updatePaginationButtons();
 };
-// Update the state of pagination buttons based on current data
 export const updatePaginationButtons = () => {
     const prevPageButton = document.getElementById("prevPage");
     const nextPageButton = document.getElementById("nextPage");
-    // Siempre permite la paginación cuando hay más productos de los que se pueden mostrar en una página.
-    const totalPages = Math.ceil(currentProducts.length / itemsPerPage);
-    const isPaginationNeeded = totalPages > 1;
-    prevPageButton.disabled = !isPaginationNeeded || currentPage === 0;
-    nextPageButton.disabled =
-        !isPaginationNeeded || currentPage >= totalPages - 1;
+    // Calcula el total de páginas basado en el número actual de productos visibles
+    const totalNumberOfPages = Math.ceil(currentProducts.length / itemsPerPage);
+    // Determina si el botón "Previous" debe estar habilitado
+    prevPageButton.disabled = currentPage <= 0;
+    // Determina si el botón "Next" debe estar habilitado
+    nextPageButton.disabled = currentPage >= totalNumberOfPages - 1;
 };
 export const fetchProducts = () => __awaiter(void 0, void 0, void 0, function* () {
     const response = yield fetch("https://dummyjson.com/products");
     const data = yield response.json();
     currentProducts = data.products;
-    isSearchActive = false; // Reset search state
-    currentPage = 0; // Reset to first page
-    loadTable(currentProducts.slice(0, itemsPerPage)); // Load first page
+    isSearchActive = false;
+    currentPage = 0;
+    loadTable(currentProducts.slice(0, itemsPerPage));
 });
-// Event listeners for pagination
 (_a = document.getElementById("prevPage")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
     if (currentPage > 0) {
         currentPage--;
-        window.loadTable(currentProducts.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage));
+        const startIndex = currentPage * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        loadTable(currentProducts.slice(startIndex, endIndex));
+        updatePaginationButtons();
     }
 });
 (_b = document.getElementById("nextPage")) === null || _b === void 0 ? void 0 : _b.addEventListener("click", () => {
-    const sliceStart = (currentPage + 1) * itemsPerPage;
-    if (sliceStart < currentProducts.length) {
+    const totalNumberOfPages = Math.ceil(currentProducts.length / itemsPerPage);
+    if (currentPage < totalNumberOfPages - 1) {
         currentPage++;
-        window.loadTable(currentProducts.slice(sliceStart, sliceStart + itemsPerPage));
+        const startIndex = currentPage * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        loadTable(currentProducts.slice(startIndex, endIndex));
+        updatePaginationButtons();
     }
 });
 // Initialize products table on document load

@@ -64,13 +64,14 @@ export const updatePaginationButtons = (): void => {
     "nextPage"
   ) as HTMLButtonElement;
 
-  // Siempre permite la paginación cuando hay más productos de los que se pueden mostrar en una página.
-  const totalPages = Math.ceil(currentProducts.length / itemsPerPage);
-  const isPaginationNeeded = totalPages > 1;
+  // Calcula el total de páginas basado en el número actual de productos visibles
+  const totalNumberOfPages = Math.ceil(currentProducts.length / itemsPerPage);
 
-  prevPageButton.disabled = !isPaginationNeeded || currentPage === 0;
-  nextPageButton.disabled =
-    !isPaginationNeeded || currentPage >= totalPages - 1;
+  // Determina si el botón "Previous" debe estar habilitado
+  prevPageButton.disabled = currentPage <= 0;
+
+  // Determina si el botón "Next" debe estar habilitado
+  nextPageButton.disabled = currentPage >= totalNumberOfPages - 1;
 };
 
 export const fetchProducts = async (): Promise<void> => {
@@ -82,26 +83,24 @@ export const fetchProducts = async (): Promise<void> => {
   loadTable(currentProducts.slice(0, itemsPerPage));
 };
 
-// Event listeners for pagination
 document.getElementById("prevPage")?.addEventListener("click", () => {
   if (currentPage > 0) {
     currentPage--;
-    window.loadTable(
-      currentProducts.slice(
-        currentPage * itemsPerPage,
-        (currentPage + 1) * itemsPerPage
-      )
-    );
+    const startIndex = currentPage * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    loadTable(currentProducts.slice(startIndex, endIndex));
+    updatePaginationButtons();
   }
 });
 
 document.getElementById("nextPage")?.addEventListener("click", () => {
-  const sliceStart = (currentPage + 1) * itemsPerPage;
-  if (sliceStart < currentProducts.length) {
+  const totalNumberOfPages = Math.ceil(currentProducts.length / itemsPerPage);
+  if (currentPage < totalNumberOfPages - 1) {
     currentPage++;
-    window.loadTable(
-      currentProducts.slice(sliceStart, sliceStart + itemsPerPage)
-    );
+    const startIndex = currentPage * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    loadTable(currentProducts.slice(startIndex, endIndex));
+    updatePaginationButtons();
   }
 });
 

@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 var _a;
 import { loadTable, updatePaginationButtons, fetchProducts, itemsPerPage, setIsSearchActive, setCurrentProducts, } from "./app.js";
-// Load categories into the dropdown menu
 function loadCategories() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -30,9 +29,7 @@ function loadCategories() {
         }
     });
 }
-// Perform search based on user input and update the table
-function searchProducts(name, price, category // Aquí se especifica el tipo explícitamente
-) {
+function searchProducts(name, price, category) {
     return __awaiter(this, void 0, void 0, function* () {
         let url = `https://dummyjson.com/products/search?q=${name}`;
         setIsSearchActive(true);
@@ -61,7 +58,6 @@ function searchProducts(name, price, category // Aquí se especifica el tipo exp
         }
     });
 }
-// Search form submission event listener
 (_a = document.getElementById("searchForm")) === null || _a === void 0 ? void 0 : _a.addEventListener("submit", (e) => {
     e.preventDefault();
     const nameInput = document.getElementById("searchName");
