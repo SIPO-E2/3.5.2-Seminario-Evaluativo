@@ -4,103 +4,163 @@ declare global {
     showModal: (id: number) => void;
     deleteProduct: (id: number) => void;
     loadTable: (products: Product[]) => void;
+    editModal: (id: number) => void;
   }
 }
 // Importación de la clase Product
-import { Product } from "./clases.js";
+import { Product } from './clases.js';
+import * as bootstrap from 'bootstrap';
 
-export let currentProducts: Product[] = [];
-export let isSearchActive: boolean = false;
-export let currentPage: number = 0;
-export const itemsPerPage: number = 10;
+// DOM elements
+const tableBody: HTMLTableSectionElement | null = document.querySelector('#table-body');
+const myModal_edit: bootstrap.Modal = new bootstrap.Modal(document.getElementById('modalEditProduct')!);
 
-const tableBody: HTMLTableSectionElement | null =
-  document.querySelector("#table-body");
 
-export function setIsSearchActive(value: boolean): void {
-  isSearchActive = value;
-}
+// Constants and variables
+const itemsPerPage: number = 10;
+let currentPage: number = 0;
+let idProductUpdate: number | null = null;
 
-export function setCurrentProducts(products: Product[]): void {
-  currentProducts = products;
-}
+// Fetch products function
+const fetchProducts = (): void => {
+    fetch('https://dummyjson.com/products')
+        .then(response => response.json())
+        .then((data: { products: Product[] }) => {
+            const products: Product[] = data.products;
+            loadTable(products);
 
-export const loadTable = (products: Product[]): void => {
-  if (tableBody) {
-    tableBody.innerHTML = "";
-    products.forEach((item) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${item.id}</td>
-        <td>${item.title}</td>
-        <td><img src="${item.thumbnail}" alt="${
-        item.title
-      }" style="width: 50px;"></td>
-        <td>${item.description}</td>
-        <td>$${item.price.toFixed(2)}</td>
-        <td>${item.discountPercentage.toFixed(2)}%</td>
-        <td>${item.rating.toFixed(2)}</td>
-        <td>${item.stock}</td>
-        <td>${item.brand}</td>
-        <td>${item.category}</td>
-        <td>
-        <div class="d-flex gap-2">
-            <button class="btn btn-outline-dark" onclick=""><i class="fa fa-eye" aria-hidden="true"></i></button>
-            <button class="btn btn-outline-warning" onclick=""><i class="fa fa-pencil" aria-hidden="true"></i></button>
-            <button class="btn btn-outline-danger" onclick=""><i class="fa fa-times" aria-hidden="true"></i></button>
-        </div>
-    </td>`;
-      tableBody.appendChild(row);
-    });
-  }
-  updatePaginationButtons();
+            // Pagination buttons event listeners
+            document.getElementById('prevPage')!.addEventListener('click', () => {
+                if (currentPage > 0) {
+                    currentPage--;
+                    loadTable(products);
+                }
+            });
+
+            document.getElementById('nextPage')!.addEventListener('click', () => {
+                const maxPage: number = Math.ceil(products.length / itemsPerPage) - 1;
+                if (currentPage < maxPage) {
+                    currentPage++;
+                    loadTable(products);
+                }
+            });
+
+            // Show modal function
+            window.editModal = (id: number, viewOnly: boolean = false): void => {
+                idProductUpdate = id;
+                const index: number = products.findIndex((item) => item.id === idProductUpdate);
+                document.querySelector<HTMLInputElement>('#ProductModal')!.value = products[index].title;
+                document.querySelector<HTMLInputElement>('#DescriptionModal')!.value = products[index].description;
+                document.querySelector<HTMLInputElement>('#PriceModal')!.value = products[index].price.toString();
+                document.querySelector<HTMLInputElement>('#DiscountModal')!.value = products[index].discountPercentage.toString();
+                document.querySelector<HTMLInputElement>('#RatingModal')!.value = products[index].rating.toString();
+                document.querySelector<HTMLInputElement>('#StockModal')!.value = products[index].stock.toString();
+                document.querySelector<HTMLInputElement>('#BrandModal')!.value = products[index].brand;
+                const categoryId: string = products[index].category;
+                const categorySelect: HTMLSelectElement = document.querySelector('#CategoryModal')!;
+                const optionsArray: HTMLOptionElement[] = Array.from(categorySelect.options);
+                for (let option of optionsArray) {
+                    if (option.value === categoryId) {
+                        option.selected = true;
+                    }
+                }
+
+                document.querySelector<HTMLInputElement>('#ThumbnailModal')!.value = products[index].thumbnail;
+                document.querySelector<HTMLInputElement>('#ImagesModal')!.value = products[index].images;
+
+                const inputs: NodeListOf<HTMLInputElement> = document.querySelectorAll('#modalEditProduct input, #modalEditProduct select');
+                inputs.forEach(input => {
+                    input.disabled = viewOnly;
+                });
+
+                if (viewOnly) {
+                    document.getElementById('ThumbnailModal')!.style.display = 'none';
+                    document.getElementById('ImagesModal')!.style.display = 'none';
+                    document.getElementById('saveChangesBtn')!.style.display = 'none';
+
+                    const labels: NodeListOf<HTMLLabelElement>| null = document.querySelectorAll('#modalEditProduct label');
+                    if (labels){
+                        labels.forEach(label => {
+                            const htmlFor = label.htmlFor;
+                            if (htmlFor === 'ImagesModal' || htmlFor === 'ThumbnailModal') {
+                                label.style.display = viewOnly ? 'none' : 'block';
+                            }
+                        });
+                    }
+                }
+
+                if (myModal_edit) {
+                    myModal_edit.show();
+                } else {
+                    console.error("myModal_edit is null. Unable to show modal.");
+                }
+            };
+
+            // Update product function
+            const productUpdate = (e: Event): void => {
+                e.preventDefault();
+                const index: number = products.findIndex((item) => item.id === idProductUpdate);
+                products[index].title = document.querySelector<HTMLInputElement>('#ProductModal')!.value;
+                products[index].description = document.querySelector<HTMLInputElement>('#DescriptionModal')!.value;
+                products[index].price = parseFloat(document.querySelector<HTMLInputElement>('#PriceModal')!.value);
+                products[index].discountPercentage = parseFloat(document.querySelector<HTMLInputElement>('#DiscountModal')!.value);
+                products[index].rating = parseFloat(document.querySelector<HTMLInputElement>('#RatingModal')!.value);
+                products[index].stock = parseInt(document.querySelector<HTMLInputElement>('#StockModal')!.value, 10);
+                products[index].brand = document.querySelector<HTMLInputElement>('#BrandModal')!.value;
+                products[index].category = document.querySelector<HTMLSelectElement>('#CategoryModal')!.value;
+                products[index].thumbnail = document.querySelector<HTMLInputElement>('#ThumbnailModal')!.value;
+                products[index].images = document.querySelector<HTMLInputElement>('#ImagesModal')!.value;
+                loadTable(products);
+                if (myModal_edit) {
+                    myModal_edit.hide();
+                } else {
+                    console.error("myModal_edit is null. Unable to show modal.");
+                }
+            };
+
+            // Event listeners
+            document.querySelector<HTMLFormElement>('#formModal')!.addEventListener('submit', productUpdate);
+            document.getElementById('saveChangesBtn')!.addEventListener('click', productUpdate);
+        })
+        .catch(error => {
+            console.error('Error fetching products:', error);
+        });
 };
 
-export const updatePaginationButtons = (): void => {
-  const prevPageButton = document.getElementById(
-    "prevPage"
-  ) as HTMLButtonElement;
-  const nextPageButton = document.getElementById(
-    "nextPage"
-  ) as HTMLButtonElement;
-  const totalNumberOfPages = Math.ceil(currentProducts.length / itemsPerPage);
 
-  // Si "isSearchActive" es false y hay más de una página, o si se selecciona "All categories", permitir paginación.
-  const allowPagination = isSearchActive ? totalNumberOfPages > 1 : true;
-
-  prevPageButton.disabled = !allowPagination || currentPage === 0;
-  nextPageButton.disabled =
-    !allowPagination || currentPage >= totalNumberOfPages - 1;
+// Load table function
+const loadTable = (products: Product[]): void => {
+    if (tableBody) {
+        tableBody.innerHTML = '';
+        const startIndex: number = currentPage * itemsPerPage;
+        const endIndex: number = startIndex + itemsPerPage;
+        const productsToShow: Product[] = products.slice(startIndex, endIndex);
+        productsToShow.forEach(item => {
+            const row: HTMLTableRowElement = document.createElement('tr');
+            const cells: string = `
+                    <td>${item.id}</td>
+                    <td>${item.title}</td>
+                    <td><img src="${item.thumbnail}" alt="Thumbnail" style="max-width: 150px;"></td>
+                    <td>${item.description}</td>
+                    <td>$${item.price}</td>
+                    <td>%${item.discountPercentage}</td>
+                    <td>${item.rating}</td>
+                    <td>${item.stock}</td>
+                    <td>${item.brand}</td>
+                    <td>${item.category}</td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-dark" onclick="showModal(${item.id}, true)"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                            <button class="btn btn-outline-warning" onclick="editModal(${item.id})"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                            <button class="btn btn-outline-danger" onclick="deleteProduct(${item.id})"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        </div>
+                    </td>`;
+            row.innerHTML = cells;
+            tableBody.appendChild(row);
+        });
+    } else {
+        console.error("tableBody is null. Unable to update the table.");
+    }
 };
 
-export const fetchProducts = async (): Promise<void> => {
-  const response = await fetch("https://dummyjson.com/products");
-  const data = await response.json();
-  currentProducts = data.products;
-  isSearchActive = false;
-  currentPage = 0;
-  loadTable(currentProducts.slice(0, itemsPerPage));
-};
-
-document.getElementById("prevPage")?.addEventListener("click", () => {
-  if (currentPage > 0) {
-    currentPage--;
-    const startIndex = currentPage * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    loadTable(currentProducts.slice(startIndex, endIndex));
-    updatePaginationButtons();
-  }
-});
-
-document.getElementById("nextPage")?.addEventListener("click", () => {
-  const totalNumberOfPages = Math.ceil(currentProducts.length / itemsPerPage);
-  if (currentPage < totalNumberOfPages - 1) {
-    currentPage++;
-    const startIndex = currentPage * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    loadTable(currentProducts.slice(startIndex, endIndex));
-    updatePaginationButtons();
-  }
-});
-
-document.addEventListener("DOMContentLoaded", fetchProducts);
+fetchProducts();
