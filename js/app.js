@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a, _b;
+var _a, _b, _c;
 export let currentProducts = [];
 export let isSearchActive = false;
 export let currentPage = 0;
@@ -84,4 +84,69 @@ export const fetchProducts = () => __awaiter(void 0, void 0, void 0, function* (
         updatePaginationButtons();
     }
 });
+const addProduct = () => __awaiter(void 0, void 0, void 0, function* () {
+    const productModalNew = document.getElementById("ProductModalNew");
+    const descriptionModalNew = document.getElementById("DescriptionModalNew");
+    const priceModalNew = document.getElementById("PriceModalNew");
+    const discountModalNew = document.getElementById("DiscountModalNew");
+    const ratingModalNew = document.getElementById("RatingModalNew");
+    const stockModalNew = document.getElementById("StockModalNew");
+    const brandModalNew = document.getElementById("BrandModalNew");
+    const categoryModalNew = document.getElementById("CategoryModalNew");
+    const thumbnailModalNew = document.getElementById("ThumbnailModalNew");
+    const imagesModalNew = document.getElementById("ImagesModalNew");
+    console.log(productModalNew.value.trim(), descriptionModalNew.value.trim(), priceModalNew.value.trim(), discountModalNew.value.trim(), ratingModalNew.value.trim(), stockModalNew.value.trim(), brandModalNew.value.trim(), categoryModalNew.value.trim(), thumbnailModalNew.value.trim(), imagesModalNew.value.trim());
+    // Validate required fields
+    if (productModalNew.value.trim() === "" ||
+        descriptionModalNew.value.trim() === "" ||
+        priceModalNew.value.trim() === "" ||
+        discountModalNew.value.trim() === "" ||
+        ratingModalNew.value.trim() === "" ||
+        stockModalNew.value.trim() === "" ||
+        brandModalNew.value.trim() === "" ||
+        categoryModalNew.value.trim() === "" ||
+        thumbnailModalNew.value.trim() === "" ||
+        imagesModalNew.value.trim() === "") {
+        console.log(productModalNew.value.trim(), descriptionModalNew.value.trim(), priceModalNew.value.trim(), discountModalNew.value.trim(), ratingModalNew.value.trim(), stockModalNew.value.trim(), brandModalNew.value.trim(), categoryModalNew.value.trim(), thumbnailModalNew.value.trim(), imagesModalNew.value.trim());
+        alert("Please fill in all required fields.");
+        return;
+    }
+    // Validate field values
+    if (isNaN(Number(priceModalNew.value)) || isNaN(Number(discountModalNew.value)) || isNaN(Number(ratingModalNew.value)) || isNaN(Number(stockModalNew.value))) {
+        alert("Invalid field values.");
+        return;
+    }
+    const newProduct = {
+        product: productModalNew.value.trim(),
+        description: descriptionModalNew.value.trim(),
+        price: Number(priceModalNew.value),
+        discountPercentage: Number(discountModalNew.value),
+        rating: Number(ratingModalNew.value),
+        stock: Number(stockModalNew.value),
+        brand: brandModalNew.value.trim(),
+        category: categoryModalNew.value.trim(),
+        thumbnailURL: thumbnailModalNew.value.trim(),
+        imagesURL: imagesModalNew.value.trim(),
+    };
+    try {
+        const response = yield fetch("https://dummyjson.com/products/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newProduct),
+        });
+        if (response.ok) {
+            alert("Product added successfully.");
+        }
+        else {
+            alert("Failed to add product.");
+        }
+    }
+    catch (error) {
+        alert("An error occurred while adding the product.");
+    }
+});
+(_c = document.getElementById("addProductBtn")) === null || _c === void 0 ? void 0 : _c.addEventListener("click", addProduct);
 document.addEventListener("DOMContentLoaded", fetchProducts);
+window.addProduct = addProduct;

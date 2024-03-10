@@ -8,8 +8,7 @@ declare global {
   }
 }
 // Importación de la clase Product
-import { Product, validateProduct } from "./clases.js";
-import { addProduct } from './addProduct.ts';
+import { Product } from "./clases.js";
 
 export let currentProducts: Product[] = [];
 export let isSearchActive: boolean = false;
@@ -119,6 +118,9 @@ document.getElementById("nextPage")?.addEventListener("click", () => {
       const thumbnailModalNew = document.getElementById("ThumbnailModalNew") as HTMLInputElement;
       const imagesModalNew = document.getElementById("ImagesModalNew") as HTMLInputElement;
 
+      console.log(productModalNew.value.trim(), descriptionModalNew.value.trim(), priceModalNew.value.trim(), discountModalNew.value.trim(), ratingModalNew.value.trim(), stockModalNew.value.trim(), brandModalNew.value.trim(), categoryModalNew.value.trim(), thumbnailModalNew.value.trim(), imagesModalNew.value.trim());
+      
+
       // Validate required fields
       if (
         productModalNew.value.trim() === "" ||
@@ -132,6 +134,7 @@ document.getElementById("nextPage")?.addEventListener("click", () => {
         thumbnailModalNew.value.trim() === "" ||
         imagesModalNew.value.trim() === ""
       ) {
+        console.log(productModalNew.value.trim(), descriptionModalNew.value.trim(), priceModalNew.value.trim(), discountModalNew.value.trim(), ratingModalNew.value.trim(), stockModalNew.value.trim(), brandModalNew.value.trim(), categoryModalNew.value.trim(), thumbnailModalNew.value.trim(), imagesModalNew.value.trim());
         alert("Please fill in all required fields.");
         return;
       }
@@ -174,10 +177,5 @@ document.getElementById("nextPage")?.addEventListener("click", () => {
       }
     };
 
-    document.getElementById("addProductBtn")?.addEventListener("click", addProduct);
-
+document.getElementById("addProductBtn")?.addEventListener("click", addProduct);    
 document.addEventListener("DOMContentLoaded", fetchProducts);
-window.addProduct = addProduct;
-  // Collect product data from modal inputs
-  // Call the addProduct function from addProduct.ts with the new product data
-};
