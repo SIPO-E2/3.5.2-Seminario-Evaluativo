@@ -108,7 +108,7 @@ document.getElementById("nextPage")?.addEventListener("click", () => {
 });
 
 
-    const addProduct = async (): Promise<void> => {
+    window.addProduct = async (): Promise<void> => {
       const productModalNew = document.getElementById("ProductModalNew") as HTMLInputElement;
       const descriptionModalNew = document.getElementById("DescriptionModalNew") as HTMLInputElement;
       const priceModalNew = document.getElementById("PriceModalNew") as HTMLInputElement;
@@ -119,8 +119,6 @@ document.getElementById("nextPage")?.addEventListener("click", () => {
       const categoryModalNew = document.getElementById("CategoryModalNew") as HTMLSelectElement;
       const thumbnailModalNew = document.getElementById("ThumbnailModalNew") as HTMLInputElement;
       const imagesModalNew = document.getElementById("ImagesModalNew") as HTMLInputElement;
-
-      console.log(productModalNew.value.trim(), descriptionModalNew.value.trim(), priceModalNew.value.trim(), discountModalNew.value.trim(), ratingModalNew.value.trim(), stockModalNew.value.trim(), brandModalNew.value.trim(), categoryModalNew.value.trim(), thumbnailModalNew.value.trim(), imagesModalNew.value.trim());
       
 
       // Validate required fields
@@ -143,6 +141,12 @@ document.getElementById("nextPage")?.addEventListener("click", () => {
 
       // Validate field values
       if (isNaN(Number(priceModalNew.value)) || isNaN(Number(discountModalNew.value)) || isNaN(Number(ratingModalNew.value)) || isNaN(Number(stockModalNew.value))) {
+      if (
+        isNaN(Number(priceModalNew.value)) ||
+        isNaN(Number(discountModalNew.value)) ||
+        isNaN(Number(ratingModalNew.value)) ||
+        isNaN(Number(stockModalNew.value))
+      ) {
         alert("Invalid field values.");
         return;
       }
