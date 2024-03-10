@@ -1,54 +1,84 @@
 import { Product } from "./clases.js";
+import {
+  currentProducts,
+  loadTable,
+  updatePaginationButtons,
+  fetchProducts,
+  itemsPerPage,
+  setIsSearchActive,
+  setCurrentProducts,
+} from "./app.js";
 
-let currentProducts: Product[] = [];
-let isSearchActive: boolean = false;
-
-async function loadCategories() {
-  const response = await fetch("https://dummyjson.com/products/categories");
-  const categories: string[] = await response.json();
-  const select = document.getElementById("searchCategory") as HTMLSelectElement;
-  categories.forEach((category) => {
-    const option = new Option(category, category);
-    select.add(option);
-  });
+async function loadCategories(): Promise<void> {
+  try {
+    const response = await fetch("https://dummyjson.com/products/categories");
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const categories = await response.json();
+    const selectElement = document.getElementById(
+      "searchCategory"
+    ) as HTMLSelectElement;
+    selectElement.options.length = 0;
+    selectElement.add(new Option("All categories", "All"));
+    categories.forEach((category: string) => {
+      selectElement.add(new Option(category, category));
+    });
+  } catch (error) {
+    console.error("Error loading categories:", error);
+  }
 }
 
-async function searchProducts(name: string, price: number, category: string) {
+async function searchProducts(
+  name: string,
+  price: number,
+  category: string
+): Promise<void> {
   let url = `https://dummyjson.com/products/search?q=${name}`;
-  const response = await fetch(url);
-  const data = await response.json();
-  let filteredProducts: Product[] = data.products;
+  setIsSearchActive(true);
 
-  if (price > 0) {
-    filteredProducts = filteredProducts.filter(
-      (product) => product.price <= price
-    );
-  }
-  if (category && category !== "All") {
-    filteredProducts = filteredProducts.filter(
-      (product) => product.category === category
-    );
-  }
+  if (category === "All") {
+    setIsSearchActive(false);
+    await fetchProducts();
+  } else {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      let filteredProducts: Product[] = data.products;
 
-  currentProducts = filteredProducts;
-  isSearchActive = true;
-  window.loadTable(filteredProducts); // Muestra todos los productos filtrados
+      if (price > 0) {
+        filteredProducts = filteredProducts.filter(
+          (product: Product) => product.price <= price
+        );
+      }
+      if (category && category !== "All") {
+        filteredProducts = filteredProducts.filter(
+          (product: Product) => product.category === category
+        );
+      }
+
+      setCurrentProducts(filteredProducts);
+      loadTable(filteredProducts.slice(0, itemsPerPage));
+      updatePaginationButtons();
+    } catch (error) {
+      console.error("Error searching products:", error);
+    }
+  }
 }
 
 document.getElementById("searchForm")?.addEventListener("submit", (e) => {
   e.preventDefault();
-  const name = (document.getElementById("searchName") as HTMLInputElement)
-    .value;
-  const price = parseFloat(
-    (document.getElementById("searchPrice") as HTMLInputElement).value
+  const nameInput = document.getElementById("searchName") as HTMLInputElement;
+  const priceInput = document.getElementById("searchPrice") as HTMLInputElement;
+  const categorySelect = document.getElementById(
+    "searchCategory"
+  ) as HTMLSelectElement;
+
+  searchProducts(
+    nameInput.value,
+    parseFloat(priceInput.value || "0"),
+    categorySelect.value
   );
-  const category = (
-    document.getElementById("searchCategory") as HTMLSelectElement
-  ).value;
-
-  searchProducts(name, price, category);
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadCategories();
-});
+document.addEventListener("DOMContentLoaded", loadCategories);
