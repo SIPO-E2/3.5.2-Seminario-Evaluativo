@@ -51,6 +51,7 @@ const fetchProducts = (): void => {
 // Load table function
 const loadTable = (products: Product[]): void => {
   console.log("HOLAAAAAAA");
+  console.log("hollaaa");
   if (tableBody) {
     tableBody.innerHTML = "";
     const startIndex: number = currentPage * itemsPerPage;
