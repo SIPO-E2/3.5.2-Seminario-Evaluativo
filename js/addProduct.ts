@@ -1,9 +1,7 @@
 // Importación de la clase Product
-import { Product } from "./clases.ts";
+import { Product } from "./clases.js";
 import { currentProducts, loadTable, itemsPerPage } from "./app.js";
 
-// Función para validar los campos del producto
-function validateProduct(product: Product): boolean {
   // Aquí puedes agregar las validaciones necesarias para tu producto
   // Por ejemplo, verificar que el título no esté vacío
 function validateProduct(product: Product): boolean {
