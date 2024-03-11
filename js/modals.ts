@@ -19,18 +19,6 @@ function createImageInput(value: string): HTMLElement {
   return div;
 }
 
-function populateCategorySelect(categories: string[], selectedCategory: string): void {
-  const categoryModal = document.getElementById('CategoryModal') as HTMLSelectElement;
-  categoryModal.innerHTML = '';
-  categories.forEach((category) => {
-    const option = document.createElement('option');
-    option.value = category;
-    option.textContent = category;
-    option.selected = category === selectedCategory;
-    categoryModal.appendChild(option);
-  });
-}
-
 export const modal = async (modalID:string, product?: Product): Promise<void> => {
 
     console.log(product);
