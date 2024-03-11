@@ -157,6 +157,27 @@ window.showModal = (id: string): void => {
   if (element) {
     const modal = new Modal(element);
     modal.show();
+    element.addEventListener('hidden.bs.modal', resetModalFields);
+  }
+}
+
+function resetModalFields(event: Event): void {
+  const modal = event.target as HTMLElement;
+  if (modal) {
+    const form = modal.querySelector('form');
+    if (form) {
+      form.reset();
+      // Re-enable any potentially disabled fields
+      const inputs = form.querySelectorAll('input, select');
+      inputs.forEach(input => {
+        input.removeAttribute('disabled');
+      });
+    }
+    // Show the add/edit button in case it was hidden
+    const addProductBtn = modal.querySelector('#addProductBtn') as HTMLElement;
+    if (addProductBtn) {
+      addProductBtn.style.display = '';
+    }
   }
 }
 
