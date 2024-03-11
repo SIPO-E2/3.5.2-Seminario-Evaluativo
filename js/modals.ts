@@ -37,6 +37,7 @@ export const modal = async (modalID:string, product?: Product): Promise<void> =>
           brandModal.value = product.brand;
           categoryModal.value = product.category;
           thumbnailModal.value = product.thumbnail;
+          imagesModal.value = product.images.join(', ');
           // Clear existing carousel items
           carouselImagesInner.innerHTML = '';
           // Populate carousel with product images
@@ -161,6 +162,7 @@ export const modal = async (modalID:string, product?: Product): Promise<void> =>
           brandModal.value = product.brand;
           categoryModal.value = product.category;
           thumbnailModal.value = product.thumbnail;
+          imagesModal.value = product.images.join(', ');
           // Clear existing carousel items
           carouselImagesInner.innerHTML = '';
           // Populate carousel with product images
