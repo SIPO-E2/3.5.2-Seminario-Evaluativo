@@ -184,6 +184,14 @@ function resetModalFields(event: Event): void {
     if (thumbnailDisplay) {
       thumbnailDisplay.src = '';
     }
+
+    // hide the carousel
+    const carouselImagesModal = modal.querySelector('#carouselImagesModal') as HTMLElement;
+    if (carouselImagesModal) {
+      carouselImagesModal.style.display = 'none';
+    }
+
+
   }
 }
 

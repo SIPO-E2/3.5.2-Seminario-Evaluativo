@@ -153,6 +153,11 @@ function resetModalFields(event) {
         if (thumbnailDisplay) {
             thumbnailDisplay.src = '';
         }
+        // hide the carousel
+        const carouselImagesModal = modal.querySelector('#carouselImagesModal');
+        if (carouselImagesModal) {
+            carouselImagesModal.style.display = 'none';
+        }
     }
 }
 const productModal = (modalID, product) => {

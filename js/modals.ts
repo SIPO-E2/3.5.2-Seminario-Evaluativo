@@ -15,6 +15,7 @@ export const modal = async (modalID:string, product?: Product): Promise<void> =>
     const categoryModal = document.getElementById("CategoryModal") as HTMLSelectElement;
     const thumbnailModal = document.getElementById("ThumbnailModal") as HTMLInputElement;
     const carouselImagesInner = document.getElementById("carouselImagesInner") as HTMLDivElement;
+    const carouselImagesModal = document.getElementById("carouselImagesModal") as HTMLDivElement;
     const imagesModal = document.getElementById("ImagesModal") as HTMLInputElement;
     const addProductBtn = document.getElementById("addProductBtn") as HTMLButtonElement;
     const thumbnailDisplay = document.getElementById('thumbnailDisplay') as  HTMLImageElement;
@@ -38,7 +39,8 @@ export const modal = async (modalID:string, product?: Product): Promise<void> =>
           categoryModal.value = product.category;
           thumbnailModal.value = product.thumbnail;
           imagesModal.value = product.images.join(', ');
-          // Clear existing carousel items
+          // Clear existing carousel items and display the carousel 
+          carouselImagesModal.style.display = 'block';
           carouselImagesInner.innerHTML = '';
           // Populate carousel with product images
           product.images.forEach((image, index) => {
@@ -163,7 +165,8 @@ export const modal = async (modalID:string, product?: Product): Promise<void> =>
           categoryModal.value = product.category;
           thumbnailModal.value = product.thumbnail;
           imagesModal.value = product.images.join(', ');
-          // Clear existing carousel items
+          // Clear existing carousel items and display the carousel 
+          carouselImagesModal.style.display = 'block';
           carouselImagesInner.innerHTML = '';
           // Populate carousel with product images
           product.images.forEach((image, index) => {
