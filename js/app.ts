@@ -178,6 +178,12 @@ function resetModalFields(event: Event): void {
     if (addProductBtn) {
       addProductBtn.style.display = '';
     }
+
+    // clear the thumbnail display
+    const thumbnailDisplay = modal.querySelector('#thumbnailDisplay') as HTMLImageElement;
+    if (thumbnailDisplay) {
+      thumbnailDisplay.src = '';
+    }
   }
 }
 

@@ -148,6 +148,11 @@ function resetModalFields(event) {
         if (addProductBtn) {
             addProductBtn.style.display = '';
         }
+        // clear the thumbnail display
+        const thumbnailDisplay = modal.querySelector('#thumbnailDisplay');
+        if (thumbnailDisplay) {
+            thumbnailDisplay.src = '';
+        }
     }
 }
 const productModal = (modalID, product) => {

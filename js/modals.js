@@ -21,6 +21,10 @@ export const modal = (modalID, product) => __awaiter(void 0, void 0, void 0, fun
     const thumbnailModal = document.getElementById("ThumbnailModal");
     const imagesModal = document.getElementById("ImagesModal");
     const addProductBtn = document.getElementById("addProductBtn");
+    const thumbnailDisplay = document.getElementById('thumbnailDisplay');
+    if (product === null || product === void 0 ? void 0 : product.thumbnail) {
+        thumbnailDisplay.src = product.thumbnail;
+    }
     if (modalID === "ProductModalEdit") {
         modalProductLabel.innerHTML = "Edit Product";
         if (product) {
