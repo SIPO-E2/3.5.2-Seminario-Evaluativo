@@ -1,7 +1,9 @@
 import { Product } from "./clases";
 
-export const modal = async (modalID:string): Promise<void> => {
-    
+export const modal = async (modalID:string, product?: Product): Promise<void> => {
+
+    console.log(product);
+
     const modalProductLabel = document.getElementById("modalProductLabel") as HTMLInputElement;
     const productModal = document.getElementById("ProductModal") as HTMLInputElement;
     const descriptionModal = document.getElementById("DescriptionModal") as HTMLInputElement;
@@ -17,8 +19,50 @@ export const modal = async (modalID:string): Promise<void> => {
 
 
     if(modalID === "ProductModalEdit"){
+        modalProductLabel.innerHTML = "Edit Product";
+
+        if (product) {
+          // Populate the form with the existing product data
+          productModal.value = product.title;
+          descriptionModal.value = product.description;
+          priceModal.value = product.price.toString();
+          discountModal.value = product.discountPercentage.toString();
+          ratingModal.value = product.rating.toString();
+          stockModal.value = product.stock.toString();
+          brandModal.value = product.brand;
+          categoryModal.value = product.category;
+          thumbnailModal.value = product.thumbnail;
+          imagesModal.value = product.images.join(', ');
+        }
         modalProductLabel.value = "Edit Product";
         addProductBtn.innerHTML = "Edit Product";
+        addProductBtn.onclick = async () => {
+          // Validate required fields
+          // ... (validation code remains the same)
+          // Prepare the updated product object
+          const updatedProduct = {
+            // ... (properties remain the same)
+          };
+          try {
+            const response = await fetch(`https://dummyjson.com/products/${product?.id}`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(updatedProduct),
+            });
+            const responseData = await response.json();
+            console.log(responseData);
+            if (response.ok) {
+              alert(`Product updated successfully: ${JSON.stringify(responseData)}`);
+              // ... (additional success handling)
+            } else {
+              alert(`Failed to update product. Server responded with status: ${response.status}`);
+            }
+          } catch (error) {
+            alert("An error occurred while updating the product.");
+          }
+        };
 
 
     } else if(modalID === "ProductModalNew"){
