@@ -1,7 +1,9 @@
 import { Product } from "./clases";
 
 export const modal = async (modalID:string, product?: Product): Promise<void> => {
-    
+
+    console.log(product);
+
     const modalProductLabel = document.getElementById("modalProductLabel") as HTMLInputElement;
     const productModal = document.getElementById("ProductModal") as HTMLInputElement;
     const descriptionModal = document.getElementById("DescriptionModal") as HTMLInputElement;
@@ -17,6 +19,8 @@ export const modal = async (modalID:string, product?: Product): Promise<void> =>
 
 
     if(modalID === "ProductModalEdit"){
+        modalProductLabel.innerHTML = "Edit Product";
+
         if (product) {
           // Populate the form with the existing product data
           productModal.value = product.title;

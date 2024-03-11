@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a, _b, _c, _d, _e;
+var _a, _b, _c, _d;
 import { Modal } from 'bootstrap';
 import { modal } from "./modals.js";
 export let currentProducts = [];
@@ -18,9 +18,9 @@ const tableBody = document.querySelector("#table-body");
 export function setIsSearchActive(value) {
     isSearchActive = value;
 }
-export function setCurrentProducts(products) {
-    currentProducts = products;
-}
+export const setCurrentProducts = (value) => {
+    currentProducts = value;
+};
 export const loadTable = (products) => {
     if (tableBody) {
         tableBody.innerHTML = "";
@@ -39,8 +39,8 @@ export const loadTable = (products) => {
         <td>${item.category}</td>
         <td>
         <div class="d-flex gap-2">
-            <button id="viewProductBtn" class="btn btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></button>
-            <button id="editProductBtn" class="btn btn-outline-warning" ><i class="fa fa-pencil" aria-hidden="true"></i></button>
+            <button class="btn btn-outline-dark viewProductBtn" data-product-id="${item.id}"><i class="fa fa-eye" aria-hidden="true"></i></button>
+            <button class="btn btn-outline-warning editProductBtn" data-product-id="${item.id}"><i class="fa fa-pencil" aria-hidden="true"></i></button>
             <button class="btn btn-outline-danger" ><i class="fa fa-times" aria-hidden="true"></i></button>
         </div>
     </td>`;
@@ -48,7 +48,28 @@ export const loadTable = (products) => {
         });
     }
     updatePaginationButtons();
+    attachEditButtonEventListeners();
 };
+function attachEditButtonEventListeners() {
+    document.querySelectorAll('.editProductBtn').forEach(button => {
+        button.addEventListener('click', (event) => {
+            var _a;
+            const target = event.target;
+            console.log(target);
+            const productId = (_a = target.closest('.editProductBtn')) === null || _a === void 0 ? void 0 : _a.getAttribute('data-product-id');
+            console.log(productId);
+            if (productId) {
+                const product = currentProducts.find(p => p.id.toString() === productId);
+                console.log(currentProducts);
+                console.log(product);
+                if (product) {
+                    console.log(product);
+                    productModal('ProductModalEdit', product);
+                }
+            }
+        });
+    });
+}
 export const updatePaginationButtons = () => {
     const prevPageButton = document.getElementById("prevPage");
     const nextPageButton = document.getElementById("nextPage");
@@ -93,18 +114,15 @@ window.showModal = (id) => {
         modal.show();
     }
 };
-const productModal = (modalID) => {
+const productModal = (modalID, product) => {
     window.showModal("modalProduct");
-    modal(modalID);
+    modal(modalID, product);
 };
+// Event listeners 
 (_c = document.getElementById("addNewProductNavbarBtn")) === null || _c === void 0 ? void 0 : _c.addEventListener("click", () => {
     productModal("ProductModalNew");
 });
-(_d = document.getElementById("editProductBtn")) === null || _d === void 0 ? void 0 : _d.addEventListener("click", () => {
-    productModal("ProductModalEdit");
-});
-(_e = document.getElementById("viewProductBtn")) === null || _e === void 0 ? void 0 : _e.addEventListener("click", () => {
+(_d = document.getElementById("viewProductBtn")) === null || _d === void 0 ? void 0 : _d.addEventListener("click", () => {
     productModal("ProductModalView");
 });
-console.log(document.getElementById("viewProductBtn"));
 document.addEventListener("DOMContentLoaded", fetchProducts);

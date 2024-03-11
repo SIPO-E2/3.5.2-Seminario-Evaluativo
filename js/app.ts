@@ -13,10 +13,10 @@ import { Product } from "./clases.js";
 import { Modal } from 'bootstrap';
 import { modal } from "./modals.js";
 
-let currentProducts: Product[] = [];
-let isSearchActive: boolean = false;
-let currentPage: number = 0;
-const itemsPerPage: number = 10;
+export let currentProducts: Product[] = [];
+export let isSearchActive: boolean = false;
+export let currentPage: number = 0;
+export const itemsPerPage: number = 10;
 
 const tableBody: HTMLTableSectionElement | null =
   document.querySelector("#table-body");
@@ -25,6 +25,9 @@ export function setIsSearchActive(value: boolean): void {
   isSearchActive = value;
 }
 
+export const setCurrentProducts = (value: Product[]): void =>{
+    currentProducts = value;
+}
 export const loadTable = (products: Product[]): void => {
   if (tableBody) {
     tableBody.innerHTML = "";
@@ -61,11 +64,21 @@ function attachEditButtonEventListeners(): void {
   document.querySelectorAll('.editProductBtn').forEach(button => {
     button.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
+      console.log(target);
       const productId = target.closest('.editProductBtn')?.getAttribute('data-product-id');
+      console.log(productId);
+      
       if (productId) {
         const product = currentProducts.find(p => p.id.toString() === productId);
+        console.log(currentProducts);
+        
+        console.log(product);
+        
         if (product) {
+            console.log(product);
+            
           productModal('ProductModalEdit', product);
+
         }
       }
     });
@@ -130,9 +143,9 @@ window.showModal = (id: string): void => {
   }
 }
 
-const productModal = (modalID: string): void => {
+const productModal = (modalID: string, product?: Product): void => {
   window.showModal("modalProduct");
-  modal(modalID);
+  modal(modalID, product);
 }
 
 // Event listeners 
@@ -140,18 +153,10 @@ document.getElementById("addNewProductNavbarBtn")?.addEventListener("click", () 
   productModal("ProductModalNew");
 });
 
-// add el producto en el que se hizo click al parametro del modal
-document.getElementById("editProductBtn")?.addEventListener("click", () => {
-  productModal("ProductModalEdit");
-});
 
 document.getElementById("viewProductBtn")?.addEventListener("click", () => {
   productModal("ProductModalView");
 });
-
-
-
-console.log(document.getElementById("viewProductBtn"));
 
 
 
