@@ -48,8 +48,24 @@ export const loadTable = (products) => {
         });
     }
     updatePaginationButtons();
+    attachViewButtonEventListeners();
     attachEditButtonEventListeners();
 };
+function attachViewButtonEventListeners() {
+    document.querySelectorAll('.viewProductBtn').forEach(button => {
+        button.addEventListener('click', (event) => {
+            var _a;
+            const target = event.target;
+            const productId = (_a = target.closest('.viewProductBtn')) === null || _a === void 0 ? void 0 : _a.getAttribute('data-product-id');
+            if (productId) {
+                const product = currentProducts.find(p => p.id.toString() === productId);
+                if (product) {
+                    productModal('ProductModalView', product);
+                }
+            }
+        });
+    });
+}
 function attachEditButtonEventListeners() {
     document.querySelectorAll('.editProductBtn').forEach(button => {
         button.addEventListener('click', (event) => {
@@ -112,8 +128,28 @@ window.showModal = (id) => {
     if (element) {
         const modal = new Modal(element);
         modal.show();
+        element.addEventListener('hidden.bs.modal', resetModalFields);
     }
 };
+function resetModalFields(event) {
+    const modal = event.target;
+    if (modal) {
+        const form = modal.querySelector('form');
+        if (form) {
+            form.reset();
+            // Re-enable any potentially disabled fields
+            const inputs = form.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.removeAttribute('disabled');
+            });
+        }
+        // Show the add/edit button in case it was hidden
+        const addProductBtn = modal.querySelector('#addProductBtn');
+        if (addProductBtn) {
+            addProductBtn.style.display = '';
+        }
+    }
+}
 const productModal = (modalID, product) => {
     window.showModal("modalProduct");
     modal(modalID, product);

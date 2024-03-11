@@ -121,6 +121,33 @@ export const modal = (modalID, product) => __awaiter(void 0, void 0, void 0, fun
         });
     }
     else if (modalID === "ProductModalView") {
+        console.log("View Product");
+        modalProductLabel.innerHTML = "View Product";
+        addProductBtn.style.display = "none"; // Hide the add/edit button
+        if (product) {
+            // Populate the form with the existing product data
+            productModal.value = product.title;
+            descriptionModal.value = product.description;
+            priceModal.value = product.price.toString();
+            discountModal.value = product.discountPercentage.toString();
+            ratingModal.value = product.rating.toString();
+            stockModal.value = product.stock.toString();
+            brandModal.value = product.brand;
+            categoryModal.value = product.category;
+            thumbnailModal.value = product.thumbnail;
+            imagesModal.value = product.images.join(', ');
+            // Disable all input fields to make it read-only
+            productModal.disabled = true;
+            descriptionModal.disabled = true;
+            priceModal.disabled = true;
+            discountModal.disabled = true;
+            ratingModal.disabled = true;
+            stockModal.disabled = true;
+            brandModal.disabled = true;
+            categoryModal.disabled = true;
+            thumbnailModal.disabled = true;
+            imagesModal.disabled = true;
+        }
     }
     else {
         alert("Modal not found");

@@ -130,6 +130,8 @@ export const modal = async (modalID:string, product?: Product): Promise<void> =>
         
 
     } else if(modalID === "ProductModalView"){
+      console.log("View Product");
+      
 
         modalProductLabel.innerHTML = "View Product";
         addProductBtn.style.display = "none"; // Hide the add/edit button
