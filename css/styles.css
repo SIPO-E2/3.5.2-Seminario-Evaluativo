@@ -1,0 +1,5 @@
+/* Custom styles for the carousel images */
+.carousel-img {
+    object-fit: cover;
+    height: 300px; /* Set a fixed height for all images */
+}
