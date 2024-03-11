@@ -1,3 +1,5 @@
+import { Product } from "./clases";
+
 export const modal = async (modalID:string): Promise<void> => {
     
     const modalProductLabel = document.getElementById("modalProductLabel") as HTMLInputElement;
@@ -13,9 +15,9 @@ export const modal = async (modalID:string): Promise<void> => {
     const imagesModal = document.getElementById("ImagesModal") as HTMLInputElement;
     const addProductBtn = document.getElementById("addProductBtn") as HTMLButtonElement;
 
-    if(modalID === "ProductModalEdit"){
 
-        modalProductLabel.value = "Edit  Product";
+    if(modalID === "ProductModalEdit"){
+        modalProductLabel.value = "Edit Product";
         addProductBtn.innerHTML = "Edit Product";
 
 
