@@ -1,14 +1,17 @@
 // Declaraciones para expandir el objeto window global con funciones personalizadas
 declare global {
   interface Window {
-    showModal: (id: number) => void;
+    showModal: (id: string) => void;
     deleteProduct: (id: number) => void;
     loadTable: (products: Product[]) => void;
-    addProduct: () => void;
+
   }
 }
+
 // Importación de la clase Product
 import { Product } from "./clases.js";
+import { Modal } from 'bootstrap';
+import { modal } from "./modals.js";
 
 export let currentProducts: Product[] = [];
 export let isSearchActive: boolean = false;
@@ -46,9 +49,9 @@ export const loadTable = (products: Product[]): void => {
         <td>${item.category}</td>
         <td>
         <div class="d-flex gap-2">
-            <button class="btn btn-outline-dark" onclick=""><i class="fa fa-eye" aria-hidden="true"></i></button>
-            <button class="btn btn-outline-warning" onclick=""><i class="fa fa-pencil" aria-hidden="true"></i></button>
-            <button class="btn btn-outline-danger" onclick=""><i class="fa fa-times" aria-hidden="true"></i></button>
+            <button id="viewProductBtn" class="btn btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></button>
+            <button id="editProductBtn" class="btn btn-outline-warning" ><i class="fa fa-pencil" aria-hidden="true"></i></button>
+            <button class="btn btn-outline-danger" ><i class="fa fa-times" aria-hidden="true"></i></button>
         </div>
     </td>`;
       tableBody.appendChild(row);
@@ -108,85 +111,35 @@ document.getElementById("nextPage")?.addEventListener("click", () => {
 });
 
 
-    window.addProduct = async (): Promise<void> => {
-      const productModalNew = document.getElementById("ProductModalNew") as HTMLInputElement;
-      const descriptionModalNew = document.getElementById("DescriptionModalNew") as HTMLInputElement;
-      const priceModalNew = document.getElementById("PriceModalNew") as HTMLInputElement;
-      const discountModalNew = document.getElementById("DiscountModalNew") as HTMLInputElement;
-      const ratingModalNew = document.getElementById("RatingModalNew") as HTMLInputElement;
-      const stockModalNew = document.getElementById("StockModalNew") as HTMLInputElement;
-      const brandModalNew = document.getElementById("BrandModalNew") as HTMLInputElement;
-      const categoryModalNew = document.getElementById("CategoryModalNew") as HTMLSelectElement;
-      const thumbnailModalNew = document.getElementById("ThumbnailModalNew") as HTMLInputElement;
-      const imagesModalNew = document.getElementById("ImagesModalNew") as HTMLInputElement;
-      
+window.showModal = (id: string): void => {
+  const element = document.getElementById(id);
+  if (element) {
+    const modal = new Modal(element);
+    modal.show();
+  }
+}
 
-      // Validate required fields
-      if (
-        productModalNew.value.trim() === "" ||
-        descriptionModalNew.value.trim() === "" ||
-        priceModalNew.value.trim() === "" ||
-        discountModalNew.value.trim() === "" ||
-        ratingModalNew.value.trim() === "" ||
-        stockModalNew.value.trim() === "" ||
-        brandModalNew.value.trim() === "" ||
-        categoryModalNew.value.trim() === "" ||
-        thumbnailModalNew.value.trim() === "" ||
-        imagesModalNew.value.trim() === ""
-      ) {
-        console.log(productModalNew.value.trim(), descriptionModalNew.value.trim(), priceModalNew.value.trim(), discountModalNew.value.trim(), ratingModalNew.value.trim(), stockModalNew.value.trim(), brandModalNew.value.trim(), categoryModalNew.value.trim(), thumbnailModalNew.value.trim(), imagesModalNew.value.trim());
-        alert("Please fill in all required fields.");
-        return;
-      }
+const productModal = (modalID: string): void => {
+  window.showModal("modalProduct");
+  modal(modalID);
+  
+}
 
-      // Validate field values
-      if (isNaN(Number(priceModalNew.value)) || isNaN(Number(discountModalNew.value)) || isNaN(Number(ratingModalNew.value)) || isNaN(Number(stockModalNew.value))) {
-      if (
-        isNaN(Number(priceModalNew.value)) ||
-        isNaN(Number(discountModalNew.value)) ||
-        isNaN(Number(ratingModalNew.value)) ||
-        isNaN(Number(stockModalNew.value))
-      ) {
-        alert("Invalid field values.");
-        return;
-      }
 
-      const newProduct = {
-        title: productModalNew.value.trim(),
-        description: descriptionModalNew.value.trim(),
-        price: Number(priceModalNew.value),
-        discountPercentage: Number(discountModalNew.value),
-        rating: Number(ratingModalNew.value),
-        stock: Number(stockModalNew.value),
-        brand: brandModalNew.value.trim(),
-        category: categoryModalNew.value.trim(),
-        thumbnail: thumbnailModalNew.value.trim(),
-        images: imagesModalNew.value.split(',').map(url => url.trim()),
-      };
+document.getElementById("addNewProductNavbarBtn")?.addEventListener("click", () => {
+  productModal("ProductModalNew");
+});
 
-      try {
-        const response = await fetch("https://dummyjson.com/products/add", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newProduct),
-        });
+document.getElementById("editProductBtn")?.addEventListener("click", () => {
+  productModal("ProductModalEdit");
+});
 
-        const responseData = await response.json();
+document.getElementById("viewProductBtn")?.addEventListener("click", () => {
+  productModal("ProductModalView");
+});
 
-        if (response.ok) {
-          alert(`Product added successfully. Product ID: ${responseData.id}`);
-        } else {
-          alert("Failed to add product.");
-          alert(`Failed to add product. Server responded with status: ${response.status}`);
-        }
-      } catch (error) {
-        alert("An error occurred while adding the product.");
-      }
-    };
+console.log(document.getElementById("viewProductBtn"));
 
-document.getElementById("addProductBtn")?.addEventListener("click", addProduct);
-document.addEventListener("DOMContentLoaded", fetchProducts);
-document.getElementById("addProductBtn")?.addEventListener("click", addProduct);    
+
+
 document.addEventListener("DOMContentLoaded", fetchProducts);

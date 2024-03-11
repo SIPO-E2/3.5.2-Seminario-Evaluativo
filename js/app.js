@@ -7,7 +7,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a, _b, _c;
+var _a, _b, _c, _d, _e;
+import { Modal } from 'bootstrap';
+import { modal } from "./modals.js";
 export let currentProducts = [];
 export let isSearchActive = false;
 export let currentPage = 0;
@@ -37,9 +39,9 @@ export const loadTable = (products) => {
         <td>${item.category}</td>
         <td>
         <div class="d-flex gap-2">
-            <button class="btn btn-outline-dark" onclick=""><i class="fa fa-eye" aria-hidden="true"></i></button>
-            <button class="btn btn-outline-warning" onclick=""><i class="fa fa-pencil" aria-hidden="true"></i></button>
-            <button class="btn btn-outline-danger" onclick=""><i class="fa fa-times" aria-hidden="true"></i></button>
+            <button id="viewProductBtn" class="btn btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></button>
+            <button id="editProductBtn" class="btn btn-outline-warning" ><i class="fa fa-pencil" aria-hidden="true"></i></button>
+            <button class="btn btn-outline-danger" ><i class="fa fa-times" aria-hidden="true"></i></button>
         </div>
     </td>`;
             tableBody.appendChild(row);
@@ -84,69 +86,25 @@ export const fetchProducts = () => __awaiter(void 0, void 0, void 0, function* (
         updatePaginationButtons();
     }
 });
-const addProduct = () => __awaiter(void 0, void 0, void 0, function* () {
-    const productModalNew = document.getElementById("ProductModalNew");
-    const descriptionModalNew = document.getElementById("DescriptionModalNew");
-    const priceModalNew = document.getElementById("PriceModalNew");
-    const discountModalNew = document.getElementById("DiscountModalNew");
-    const ratingModalNew = document.getElementById("RatingModalNew");
-    const stockModalNew = document.getElementById("StockModalNew");
-    const brandModalNew = document.getElementById("BrandModalNew");
-    const categoryModalNew = document.getElementById("CategoryModalNew");
-    const thumbnailModalNew = document.getElementById("ThumbnailModalNew");
-    const imagesModalNew = document.getElementById("ImagesModalNew");
-    console.log(productModalNew.value.trim(), descriptionModalNew.value.trim(), priceModalNew.value.trim(), discountModalNew.value.trim(), ratingModalNew.value.trim(), stockModalNew.value.trim(), brandModalNew.value.trim(), categoryModalNew.value.trim(), thumbnailModalNew.value.trim(), imagesModalNew.value.trim());
-    // Validate required fields
-    if (productModalNew.value.trim() === "" ||
-        descriptionModalNew.value.trim() === "" ||
-        priceModalNew.value.trim() === "" ||
-        discountModalNew.value.trim() === "" ||
-        ratingModalNew.value.trim() === "" ||
-        stockModalNew.value.trim() === "" ||
-        brandModalNew.value.trim() === "" ||
-        categoryModalNew.value.trim() === "" ||
-        thumbnailModalNew.value.trim() === "" ||
-        imagesModalNew.value.trim() === "") {
-        console.log(productModalNew.value.trim(), descriptionModalNew.value.trim(), priceModalNew.value.trim(), discountModalNew.value.trim(), ratingModalNew.value.trim(), stockModalNew.value.trim(), brandModalNew.value.trim(), categoryModalNew.value.trim(), thumbnailModalNew.value.trim(), imagesModalNew.value.trim());
-        alert("Please fill in all required fields.");
-        return;
+window.showModal = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+        const modal = new Modal(element);
+        modal.show();
     }
-    // Validate field values
-    if (isNaN(Number(priceModalNew.value)) || isNaN(Number(discountModalNew.value)) || isNaN(Number(ratingModalNew.value)) || isNaN(Number(stockModalNew.value))) {
-        alert("Invalid field values.");
-        return;
-    }
-    const newProduct = {
-        product: productModalNew.value.trim(),
-        description: descriptionModalNew.value.trim(),
-        price: Number(priceModalNew.value),
-        discountPercentage: Number(discountModalNew.value),
-        rating: Number(ratingModalNew.value),
-        stock: Number(stockModalNew.value),
-        brand: brandModalNew.value.trim(),
-        category: categoryModalNew.value.trim(),
-        thumbnailURL: thumbnailModalNew.value.trim(),
-        imagesURL: imagesModalNew.value.trim(),
-    };
-    try {
-        const response = yield fetch("https://dummyjson.com/products/add", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newProduct),
-        });
-        if (response.ok) {
-            alert("Product added successfully.");
-        }
-        else {
-            alert("Failed to add product.");
-        }
-    }
-    catch (error) {
-        alert("An error occurred while adding the product.");
-    }
+};
+const productModal = (modalID) => {
+    window.showModal("modalProduct");
+    modal(modalID);
+};
+(_c = document.getElementById("addNewProductNavbarBtn")) === null || _c === void 0 ? void 0 : _c.addEventListener("click", () => {
+    productModal("ProductModalNew");
 });
-(_c = document.getElementById("addProductBtn")) === null || _c === void 0 ? void 0 : _c.addEventListener("click", addProduct);
+(_d = document.getElementById("editProductBtn")) === null || _d === void 0 ? void 0 : _d.addEventListener("click", () => {
+    productModal("ProductModalEdit");
+});
+(_e = document.getElementById("viewProductBtn")) === null || _e === void 0 ? void 0 : _e.addEventListener("click", () => {
+    productModal("ProductModalView");
+});
+console.log(document.getElementById("viewProductBtn"));
 document.addEventListener("DOMContentLoaded", fetchProducts);
-window.addProduct = addProduct;
