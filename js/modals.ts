@@ -15,6 +15,7 @@ export const modal = async (modalID:string, product?: Product): Promise<void> =>
     const categoryModal = document.getElementById("CategoryModal") as HTMLSelectElement;
     const thumbnailModal = document.getElementById("ThumbnailModal") as HTMLInputElement;
     const carouselImagesInner = document.getElementById("carouselImagesInner") as HTMLDivElement;
+    const imagesModal = document.getElementById("ImagesModal") as HTMLInputElement;
     const addProductBtn = document.getElementById("addProductBtn") as HTMLButtonElement;
     const thumbnailDisplay = document.getElementById('thumbnailDisplay') as  HTMLImageElement;
 
