@@ -1,5 +1,24 @@
 import { Product } from "./clases";
 
+function createImageInput(value: string): HTMLElement {
+  const div = document.createElement('div');
+  div.className = 'row mt-3 mb-3';
+  const col = document.createElement('div');
+  col.className = 'col';
+  const label = document.createElement('label');
+  label.className = 'form-label';
+  label.textContent = 'Image URL';
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.className = 'form-control';
+  input.placeholder = 'Image URL';
+  input.value = value;
+  col.appendChild(label);
+  col.appendChild(input);
+  div.appendChild(col);
+  return div;
+}
+
 export const modal = async (modalID:string, product?: Product): Promise<void> => {
 
     console.log(product);
@@ -33,6 +52,16 @@ export const modal = async (modalID:string, product?: Product): Promise<void> =>
           categoryModal.value = product.category;
           thumbnailModal.value = product.thumbnail;
           imagesModal.value = product.images.join(', ');
+          // Remove existing image URL inputs
+          const imagesContainer = document.getElementById('imagesContainer');
+          while (imagesContainer?.firstChild) {
+            imagesContainer.removeChild(imagesContainer.firstChild);
+          }
+          // Create and append new image URL inputs
+          product.images.forEach((imageUrl) => {
+            const imageInput = createImageInput(imageUrl);
+            imagesContainer?.appendChild(imageInput);
+          });
         }
         modalProductLabel.value = "Edit Product";
         addProductBtn.innerHTML = "Edit Product";
