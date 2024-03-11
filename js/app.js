@@ -7,7 +7,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a, _b;
+var _a, _b, _c, _d, _e;
+import { Modal } from 'bootstrap';
+import { modal } from "./modals.js";
 export let currentProducts = [];
 export let isSearchActive = false;
 export let currentPage = 0;
@@ -37,9 +39,9 @@ export const loadTable = (products) => {
         <td>${item.category}</td>
         <td>
         <div class="d-flex gap-2">
-            <button class="btn btn-outline-dark" onclick=""><i class="fa fa-eye" aria-hidden="true"></i></button>
-            <button class="btn btn-outline-warning" onclick=""><i class="fa fa-pencil" aria-hidden="true"></i></button>
-            <button class="btn btn-outline-danger" onclick=""><i class="fa fa-times" aria-hidden="true"></i></button>
+            <button id="viewProductBtn" class="btn btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></button>
+            <button id="editProductBtn" class="btn btn-outline-warning" ><i class="fa fa-pencil" aria-hidden="true"></i></button>
+            <button class="btn btn-outline-danger" ><i class="fa fa-times" aria-hidden="true"></i></button>
         </div>
     </td>`;
             tableBody.appendChild(row);
@@ -84,4 +86,25 @@ export const fetchProducts = () => __awaiter(void 0, void 0, void 0, function* (
         updatePaginationButtons();
     }
 });
+window.showModal = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+        const modal = new Modal(element);
+        modal.show();
+    }
+};
+const productModal = (modalID) => {
+    window.showModal("modalProduct");
+    modal(modalID);
+};
+(_c = document.getElementById("addNewProductNavbarBtn")) === null || _c === void 0 ? void 0 : _c.addEventListener("click", () => {
+    productModal("ProductModalNew");
+});
+(_d = document.getElementById("editProductBtn")) === null || _d === void 0 ? void 0 : _d.addEventListener("click", () => {
+    productModal("ProductModalEdit");
+});
+(_e = document.getElementById("viewProductBtn")) === null || _e === void 0 ? void 0 : _e.addEventListener("click", () => {
+    productModal("ProductModalView");
+});
+console.log(document.getElementById("viewProductBtn"));
 document.addEventListener("DOMContentLoaded", fetchProducts);

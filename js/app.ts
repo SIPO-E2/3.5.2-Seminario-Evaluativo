@@ -1,28 +1,28 @@
 // Declaraciones para expandir el objeto window global con funciones personalizadas
 declare global {
   interface Window {
-    showModal: (id: number) => void;
+    showModal: (id: string) => void;
     deleteProduct: (id: number) => void;
     loadTable: (products: Product[]) => void;
+
   }
 }
+
 // Importación de la clase Product
 import { Product } from "./clases.js";
+import { Modal } from 'bootstrap';
+import { modal } from "./modals.js";
 
-export let currentProducts: Product[] = [];
-export let isSearchActive: boolean = false;
-export let currentPage: number = 0;
-export const itemsPerPage: number = 10;
+let currentProducts: Product[] = [];
+let isSearchActive: boolean = false;
+let currentPage: number = 0;
+const itemsPerPage: number = 10;
 
 const tableBody: HTMLTableSectionElement | null =
   document.querySelector("#table-body");
 
 export function setIsSearchActive(value: boolean): void {
   isSearchActive = value;
-}
-
-export function setCurrentProducts(products: Product[]): void {
-  currentProducts = products;
 }
 
 export const loadTable = (products: Product[]): void => {
@@ -45,9 +45,9 @@ export const loadTable = (products: Product[]): void => {
         <td>${item.category}</td>
         <td>
         <div class="d-flex gap-2">
-            <button class="btn btn-outline-dark" onclick=""><i class="fa fa-eye" aria-hidden="true"></i></button>
-            <button class="btn btn-outline-warning" onclick=""><i class="fa fa-pencil" aria-hidden="true"></i></button>
-            <button class="btn btn-outline-danger" onclick=""><i class="fa fa-times" aria-hidden="true"></i></button>
+            <button id="viewProductBtn" class="btn btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></button>
+            <button id="editProductBtn" class="btn btn-outline-warning" ><i class="fa fa-pencil" aria-hidden="true"></i></button>
+            <button class="btn btn-outline-danger" ><i class="fa fa-times" aria-hidden="true"></i></button>
         </div>
     </td>`;
       tableBody.appendChild(row);
@@ -55,6 +55,7 @@ export const loadTable = (products: Product[]): void => {
   }
   updatePaginationButtons();
 };
+
 
 export const updatePaginationButtons = (): void => {
   const prevPageButton = document.getElementById(
@@ -72,6 +73,8 @@ export const updatePaginationButtons = (): void => {
   nextPageButton.disabled =
     !allowPagination || currentPage >= totalNumberOfPages - 1;
 };
+
+
 
 export const fetchProducts = async (): Promise<void> => {
   const response = await fetch("https://dummyjson.com/products");
@@ -102,5 +105,39 @@ document.getElementById("nextPage")?.addEventListener("click", () => {
     updatePaginationButtons();
   }
 });
+
+
+window.showModal = (id: string): void => {
+  const element = document.getElementById(id);
+  if (element) {
+    const modal = new Modal(element);
+    modal.show();
+  }
+}
+
+const productModal = (modalID: string): void => {
+  window.showModal("modalProduct");
+  modal(modalID);
+}
+
+// Event listeners 
+document.getElementById("addNewProductNavbarBtn")?.addEventListener("click", () => {
+  productModal("ProductModalNew");
+});
+
+// add el producto en el que se hizo click al parametro del modal
+document.getElementById("editProductBtn")?.addEventListener("click", () => {
+  productModal("ProductModalEdit");
+});
+
+document.getElementById("viewProductBtn")?.addEventListener("click", () => {
+  productModal("ProductModalView");
+});
+
+
+
+console.log(document.getElementById("viewProductBtn"));
+
+
 
 document.addEventListener("DOMContentLoaded", fetchProducts);
