@@ -46,7 +46,7 @@ export const modal = async (modalID:string, product?: Product): Promise<void> =>
           product.images.forEach((image, index) => {
             const carouselItem = document.createElement('div');
             carouselItem.className = `carousel-item${index === 0 ? ' active' : ''}`;
-            carouselItem.innerHTML = `<img src="${image}" class="d-block w-100" alt="Product image">`;
+            carouselItem.innerHTML = `<img src="${image}" class="d-block w-100 carousel-img" alt="Product image">`;
             carouselImagesInner.appendChild(carouselItem);
           });
 
@@ -172,7 +172,7 @@ export const modal = async (modalID:string, product?: Product): Promise<void> =>
           product.images.forEach((image, index) => {
             const carouselItem = document.createElement('div');
             carouselItem.className = `carousel-item${index === 0 ? ' active' : ''}`;
-            carouselItem.innerHTML = `<img src="${image}" class="d-block w-100" alt="Product image">`;
+            carouselItem.innerHTML = `<img src="${image}" class="d-block w-100 carousel-img" alt="Product image">`;
             carouselImagesInner.appendChild(carouselItem);
           });
 

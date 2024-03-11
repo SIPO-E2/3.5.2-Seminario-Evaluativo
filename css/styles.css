@@ -3,6 +3,12 @@
     object-fit: cover;
     height: 300px; /* Set a fixed height for all images */
 }
+/* Ensure the image is full width and covers the carousel item */
+.carousel-item img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
 /* Custom styles for the carousel images */
 .carousel-img {
     object-fit: cover;
