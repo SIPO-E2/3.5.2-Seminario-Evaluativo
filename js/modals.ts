@@ -14,7 +14,7 @@ export const modal = async (modalID:string, product?: Product): Promise<void> =>
     const brandModal = document.getElementById("BrandModal") as HTMLInputElement;
     const categoryModal = document.getElementById("CategoryModal") as HTMLSelectElement;
     const thumbnailModal = document.getElementById("ThumbnailModal") as HTMLInputElement;
-    const imagesModal = document.getElementById("ImagesModal") as HTMLInputElement;
+    const carouselImagesInner = document.getElementById("carouselImagesInner") as HTMLDivElement;
     const addProductBtn = document.getElementById("addProductBtn") as HTMLButtonElement;
     const thumbnailDisplay = document.getElementById('thumbnailDisplay') as  HTMLImageElement;
 
@@ -36,7 +36,15 @@ export const modal = async (modalID:string, product?: Product): Promise<void> =>
           brandModal.value = product.brand;
           categoryModal.value = product.category;
           thumbnailModal.value = product.thumbnail;
-          imagesModal.value = product.images.join(', ');
+          // Clear existing carousel items
+          carouselImagesInner.innerHTML = '';
+          // Populate carousel with product images
+          product.images.forEach((image, index) => {
+            const carouselItem = document.createElement('div');
+            carouselItem.className = `carousel-item${index === 0 ? ' active' : ''}`;
+            carouselItem.innerHTML = `<img src="${image}" class="d-block w-100" alt="Product image">`;
+            carouselImagesInner.appendChild(carouselItem);
+          });
 
         }
         modalProductLabel.value = "Edit Product";
@@ -152,7 +160,15 @@ export const modal = async (modalID:string, product?: Product): Promise<void> =>
           brandModal.value = product.brand;
           categoryModal.value = product.category;
           thumbnailModal.value = product.thumbnail;
-          imagesModal.value = product.images.join(', ');
+          // Clear existing carousel items
+          carouselImagesInner.innerHTML = '';
+          // Populate carousel with product images
+          product.images.forEach((image, index) => {
+            const carouselItem = document.createElement('div');
+            carouselItem.className = `carousel-item${index === 0 ? ' active' : ''}`;
+            carouselItem.innerHTML = `<img src="${image}" class="d-block w-100" alt="Product image">`;
+            carouselImagesInner.appendChild(carouselItem);
+          });
 
           // Disable all input fields to make it read-only
           productModal.disabled = true;
