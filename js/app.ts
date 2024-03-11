@@ -57,9 +57,26 @@ export const loadTable = (products: Product[]): void => {
     });
   }
   updatePaginationButtons();
+  attachViewButtonEventListeners();
   attachEditButtonEventListeners();
 };
 
+function attachViewButtonEventListeners(): void {
+  document.querySelectorAll('.viewProductBtn').forEach(button => {
+    button.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      const productId = target.closest('.viewProductBtn')?.getAttribute('data-product-id');
+
+      if (productId) {
+        const product = currentProducts.find(p => p.id.toString() === productId);
+
+        if (product) {
+          productModal('ProductModalView', product);
+        }
+      }
+    });
+  });
+}
 function attachEditButtonEventListeners(): void {
   document.querySelectorAll('.editProductBtn').forEach(button => {
     button.addEventListener('click', (event) => {
