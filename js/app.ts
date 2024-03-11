@@ -45,8 +45,8 @@ export const loadTable = (products: Product[]): void => {
         <td>${item.category}</td>
         <td>
         <div class="d-flex gap-2">
-            <button id="viewProductBtn" class="btn btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></button>
-            <button id="editProductBtn" class="btn btn-outline-warning" ><i class="fa fa-pencil" aria-hidden="true"></i></button>
+            <button class="btn btn-outline-dark viewProductBtn" data-product-id="${item.id}"><i class="fa fa-eye" aria-hidden="true"></i></button>
+            <button class="btn btn-outline-warning editProductBtn" data-product-id="${item.id}"><i class="fa fa-pencil" aria-hidden="true"></i></button>
             <button class="btn btn-outline-danger" ><i class="fa fa-times" aria-hidden="true"></i></button>
         </div>
     </td>`;
@@ -54,8 +54,23 @@ export const loadTable = (products: Product[]): void => {
     });
   }
   updatePaginationButtons();
+  attachEditButtonEventListeners();
 };
 
+function attachEditButtonEventListeners(): void {
+  document.querySelectorAll('.editProductBtn').forEach(button => {
+    button.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      const productId = target.closest('.editProductBtn')?.getAttribute('data-product-id');
+      if (productId) {
+        const product = currentProducts.find(p => p.id.toString() === productId);
+        if (product) {
+          productModal('ProductModalEdit', product);
+        }
+      }
+    });
+  });
+}
 
 export const updatePaginationButtons = (): void => {
   const prevPageButton = document.getElementById(
