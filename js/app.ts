@@ -57,9 +57,26 @@ export const loadTable = (products: Product[]): void => {
     });
   }
   updatePaginationButtons();
+  attachViewButtonEventListeners();
   attachEditButtonEventListeners();
 };
 
+function attachViewButtonEventListeners(): void {
+  document.querySelectorAll('.viewProductBtn').forEach(button => {
+    button.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      const productId = target.closest('.viewProductBtn')?.getAttribute('data-product-id');
+
+      if (productId) {
+        const product = currentProducts.find(p => p.id.toString() === productId);
+
+        if (product) {
+          productModal('ProductModalView', product);
+        }
+      }
+    });
+  });
+}
 function attachEditButtonEventListeners(): void {
   document.querySelectorAll('.editProductBtn').forEach(button => {
     button.addEventListener('click', (event) => {
@@ -140,6 +157,41 @@ window.showModal = (id: string): void => {
   if (element) {
     const modal = new Modal(element);
     modal.show();
+    element.addEventListener('hidden.bs.modal', resetModalFields);
+  }
+}
+
+function resetModalFields(event: Event): void {
+  const modal = event.target as HTMLElement;
+  if (modal) {
+    const form = modal.querySelector('form');
+    if (form) {
+      form.reset();
+      // Re-enable any potentially disabled fields
+      const inputs = form.querySelectorAll('input, select');
+      inputs.forEach(input => {
+        input.removeAttribute('disabled');
+      });
+    }
+    // Show the add/edit button in case it was hidden
+    const addProductBtn = modal.querySelector('#addProductBtn') as HTMLElement;
+    if (addProductBtn) {
+      addProductBtn.style.display = '';
+    }
+
+    // clear the thumbnail display
+    const thumbnailDisplay = modal.querySelector('#thumbnailDisplay') as HTMLImageElement;
+    if (thumbnailDisplay) {
+      thumbnailDisplay.src = '';
+    }
+
+    // hide the carousel
+    const carouselImagesModal = modal.querySelector('#carouselImagesModal') as HTMLElement;
+    if (carouselImagesModal) {
+      carouselImagesModal.style.display = 'none';
+    }
+
+
   }
 }
 
