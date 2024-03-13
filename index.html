@@ -1,3 +1,4 @@
+</html>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,6 +17,7 @@
       type="image/ico"
       sizes="16x16"
     />
+	<link rel="stylesheet" href="css/styles.css" />
   </head>
 
   <body>
@@ -46,7 +48,7 @@
                 </select>
                 <button type="submit" class="btn btn-primary">Buscar</button>
               </form>
-              <button type="button" class="btn btn-danger ms-3" id="addNewProductNavbarBtn" data-bs-toggle="modal" data-bs-target="#modalNewProduct">
+              <button type="button" class="btn btn-success ms-3" id="addNewProductNavbarBtn" data-bs-toggle="modal" data-bs-target="#modalNewProduct">
                 Add product
               </button>
             </div>
@@ -106,61 +108,92 @@
 								<label for="ProductModalNew" class="form-label">Product</label>
 								<input type="text" class="form-control" id="ProductModal" required>
 							</div>
-							<div class="col">
-								<label for="DescriptionModalNew" class="form-label">Description</label>
-								<input type="text" class="form-control" id="DescriptionModal" required>
-							</div>
-						</div>
-						<div class="row mt-3">
+					
 							<div class="col">
 								<label for="PriceModalNew" class="form-label">Price</label>
 								<input type="number" class="form-control" id="PriceModal" required>
 							</div>
+
+						</div>
+						<div class="row mt-3">
+						
 							<div class="col">
 								<label for="DiscountModalNew" class="form-label">Discount percentage</label>
 								<input type="text" class="form-control" id="DiscountModal" required>
 							</div>
-						</div>
-						<div class="row mt-3">
+
 							<div class="col">
 								<label for="RatingModalNew" class="form-label">Rating</label>
 								<input type="number" class="form-control" id="RatingModal" min="0" max="5"
 									step="0.01" required>
 							</div>
+						</div>
+						<div class="row mt-3">
+						
 							<div class="col">
 								<label for="StockModalNew" class="form-label">Stock</label>
 								<input type="number" class="form-control" id="StockModal" required>
 							</div>
-						</div>
-						<div class="row mt-3">
+
 							<div class="col">
 								<label for="BrandModalNew" class="form-label">Brand</label>
 								<input type="text" class="form-control" id="BrandModal" required>
 							</div>
+
+						</div>
+						<div class="row mt-3">
+						
 							<div class="col">
 								<label for="CategoryModalNew" class="form-label">Category</label>
-								<Select id="CategoryModal" class="form-control" required>
-									<option value="1">laptops</option>
-									<option value="2">smartphones</option>
-									<option value="3">fragrances</option>
-									<option value="4">skincare</option>
-									<option value="5">groceries</option>
-									<option value="6">home-decoration</option>
+								<Select id="CategoryModal" class="form-control" required >
+									<option value="" selected disabled>Choose category</option>
+									<option value="laptops">laptops</option>
+									<option value="smartphones">smartphones</option>
+									<option value="fragrances">fragrances</option>
+									<option value="skincare">skincare</option>
+									<option value="groceries">groceries</option>
+									<option value="home-decoration">home-decoration</option>
 								</Select>
 							</div>
 						</div>
+
 						<div class="row mt-3">
 							<div class="col">
-								<label for="ThumbnailModalNew" class="form-label">Images URL</label>
+								<label for="DescriptionModalNew" class="form-label">Description</label>
+								<input type="text" class="form-control" id="DescriptionModal" required>
+							</div>
+						</div>
+
+						<div class="row mt-3">
+							<div class="col">
+								<label for="ThumbnailModalNew" class="form-label">Thumbnail URL</label>
 								<input type="text" class="form-control" required placeholder="Thumbnail URL"
 									id="ThumbnailModal">
+								<!-- Display for thumbnail image -->                                          
+ 					            <img id="thumbnailDisplay" class="img-thumbnail mt-3"> 
 							</div>
 						</div>
 						<div class="row mt-3 mb-3">
-							<div class="col">
+							<div class="col" id="imagesContainer">
 								<label for="ImagesModalNew" class="form-label">Images URL</label>
-								<input type="text" class="form-control" required placeholder="ImagesURL"
+								<input type="text" class="form-control" required placeholder="Images URL"
 									id="ImagesModal">
+
+								<!-- Carousel for product images -->
+								<div id="carouselImagesModal" class="carousel slide" data-bs-ride="carousel">
+									<div class="carousel-inner" id="carouselImagesInner">
+										<!-- Carousel items will be inserted here dynamically -->
+									</div>
+									<button class="carousel-control-prev" type="button" data-bs-target="#carouselImagesModal" data-bs-slide="prev">
+										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+										<span class="visually-hidden">Previous</span>
+									</button>
+									<button class="carousel-control-next" type="button" data-bs-target="#carouselImagesModal" data-bs-slide="next">
+										<span class="carousel-control-next-icon" aria-hidden="true"></span>
+										<span class="visually-hidden">Next</span>
+									</button>
+								</div>
+								
 							</div>
 						</div>
 					</form>
