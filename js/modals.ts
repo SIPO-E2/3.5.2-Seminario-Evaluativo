@@ -54,22 +54,47 @@ export const modal = async (modalID:string, product?: Product): Promise<void> =>
         modalProductLabel.value = "Edit Product";
         addProductBtn.innerHTML = "Edit Product";
         addProductBtn.onclick = async () => {
-          // Validate required fields
-          // ... (validation code remains the same)
-          // Prepare the updated product object
-          const updatedProduct = {
-            // ... (properties remain the same)
-          };
-          try {
-            const response = await fetch(`https://dummyjson.com/products/${product?.id}`, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(updatedProduct),
-            });
-            const responseData = await response.json();
-            console.log(responseData);
+
+           // Validate required fields
+      if (
+        productModal.value.trim() === "" ||
+        descriptionModal.value.trim() === "" ||
+        isNaN(Number(priceModal.value)) ||
+        isNaN(Number(discountModal.value)) ||
+        isNaN(Number(ratingModal.value)) ||
+        isNaN(Number(stockModal.value)) ||
+        brandModal.value.trim() === "" ||
+        categoryModal.value.trim() === "" ||
+        thumbnailModal.value.trim() === ""
+        ) 
+        {
+          alert("Please fill in all required fields with correct values.");
+          return;        
+      }
+      
+      // Prepare the updated product object
+      const updatedProduct = {
+        title: productModal.value.trim(),
+        description: descriptionModal.value.trim(),
+        price: Number(priceModal.value),
+        discountPercentage: Number(discountModal.value),
+        rating: Number(ratingModal.value),
+        stock: Number(stockModal.value),
+        brand: brandModal.value.trim(),
+        category: categoryModal.value.trim(),
+        thumbnail: thumbnailModal.value.trim(),
+        images: imagesModal.value.split(',').map(url => url.trim()),
+      };
+      try {
+        const response = await fetch(`https://dummyjson.com/products/${product?.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+           body: JSON.stringify(updatedProduct),          
+        });
+        const responseData = await response.json();
+        console.log(responseData);
             if (response.ok) {
               alert(
                 `Product updated successfully.\n` +
@@ -205,4 +230,3 @@ export const modal = async (modalID:string, product?: Product): Promise<void> =>
     }
   
 };
-

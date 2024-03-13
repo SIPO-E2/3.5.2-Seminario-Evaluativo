@@ -56,10 +56,30 @@ export const modal = (modalID, product) => __awaiter(void 0, void 0, void 0, fun
         addProductBtn.innerHTML = "Edit Product";
         addProductBtn.onclick = () => __awaiter(void 0, void 0, void 0, function* () {
             // Validate required fields
-            // ... (validation code remains the same)
+            if (productModal.value.trim() === "" ||
+                descriptionModal.value.trim() === "" ||
+                isNaN(Number(priceModal.value)) ||
+                isNaN(Number(discountModal.value)) ||
+                isNaN(Number(ratingModal.value)) ||
+                isNaN(Number(stockModal.value)) ||
+                brandModal.value.trim() === "" ||
+                categoryModal.value.trim() === "" ||
+                thumbnailModal.value.trim() === "") {
+                alert("Please fill in all required fields with correct values.");
+                return;
+            }
             // Prepare the updated product object
             const updatedProduct = {
-            // ... (properties remain the same)
+                title: productModal.value.trim(),
+                description: descriptionModal.value.trim(),
+                price: Number(priceModal.value),
+                discountPercentage: Number(discountModal.value),
+                rating: Number(ratingModal.value),
+                stock: Number(stockModal.value),
+                brand: brandModal.value.trim(),
+                category: categoryModal.value.trim(),
+                thumbnail: thumbnailModal.value.trim(),
+                images: imagesModal.value.split(',').map(url => url.trim()),
             };
             try {
                 const response = yield fetch(`https://dummyjson.com/products/${product === null || product === void 0 ? void 0 : product.id}`, {
@@ -72,7 +92,17 @@ export const modal = (modalID, product) => __awaiter(void 0, void 0, void 0, fun
                 const responseData = yield response.json();
                 console.log(responseData);
                 if (response.ok) {
-                    alert(`Product updated successfully: ${JSON.stringify(responseData)}`);
+                    alert(`Product updated successfully.\n` +
+                        `Product: ${responseData === null || responseData === void 0 ? void 0 : responseData.title}\n` +
+                        `Description: ${responseData === null || responseData === void 0 ? void 0 : responseData.description}\n` +
+                        `Price: ${responseData === null || responseData === void 0 ? void 0 : responseData.price}\n` +
+                        `Discount: ${responseData === null || responseData === void 0 ? void 0 : responseData.discountPercentage}%\n` +
+                        `Rating: ${responseData === null || responseData === void 0 ? void 0 : responseData.rating}\n` +
+                        `Stock: ${responseData === null || responseData === void 0 ? void 0 : responseData.stock}\n` +
+                        `Brand: ${responseData === null || responseData === void 0 ? void 0 : responseData.brand}\n` +
+                        `Category: ${responseData === null || responseData === void 0 ? void 0 : responseData.category}\n` +
+                        `Thumbnail: ${responseData === null || responseData === void 0 ? void 0 : responseData.thumbnail}\n` +
+                        `Images: ${Array.isArray(responseData === null || responseData === void 0 ? void 0 : responseData.images) ? responseData.images.join(", ") : responseData === null || responseData === void 0 ? void 0 : responseData.images}`);
                     // ... (additional success handling)
                 }
                 else {
@@ -124,7 +154,7 @@ export const modal = (modalID, product) => __awaiter(void 0, void 0, void 0, fun
                 const responseData = yield response.json();
                 console.log(responseData);
                 if (response.ok) {
-                    alert(`Product created successfully: ${JSON.stringify(responseData)}`);
+                    alert(`Product created successfully: Product: ${responseData === null || responseData === void 0 ? void 0 : responseData.title} Description: ${responseData === null || responseData === void 0 ? void 0 : responseData.description} Price: ${responseData === null || responseData === void 0 ? void 0 : responseData.price} Discount: ${responseData === null || responseData === void 0 ? void 0 : responseData.discountPercentage} Rating: ${responseData === null || responseData === void 0 ? void 0 : responseData.rating} Stock: ${responseData === null || responseData === void 0 ? void 0 : responseData.stock} Brand: ${responseData === null || responseData === void 0 ? void 0 : responseData.brand} Category: ${responseData === null || responseData === void 0 ? void 0 : responseData.category} Thumbnail: ${responseData === null || responseData === void 0 ? void 0 : responseData.thumbnail} Images: ${responseData === null || responseData === void 0 ? void 0 : responseData.images}`);
                 }
                 else {
                     alert("Failed to add product.");
