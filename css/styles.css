@@ -1,17 +1,50 @@
 /* Custom styles for the carousel images */
 .carousel-img {
-    object-fit: cover;
-    height: 300px; /* Set a fixed height for all images */
+  object-fit: cover;
+  height: 300px; /* Set a fixed height for all images */
 }
 /* Ensure the image is full width and covers the carousel item */
 .carousel-item img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
 }
 /* Custom styles for the carousel images */
 .carousel-img {
-    object-fit: cover;
-    width: 100%; /* Ensure the image is full width */
-    height: 300px; /* Set a fixed height for all images */
+  object-fit: cover;
+  width: 100%; /* Ensure the image is full width */
+  height: 300px; /* Set a fixed height for all images */
+}
+
+.header-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-form {
+  display: flex;
+  justify-content: center;
+}
+
+#addNewProductNavbarBtn {
+  white-space: nowrap;
+  width: 150px;
+}
+
+@media (max-width: 1600px) {
+  .header-content {
+    flex-direction: column;
+  }
+
+  .search-form {
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  #addNewProductNavbarBtn {
+    margin-top: 10px;
+  }
 }

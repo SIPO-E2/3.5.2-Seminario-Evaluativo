@@ -23,7 +23,7 @@ export const modal = (modalID, product) => __awaiter(void 0, void 0, void 0, fun
     const carouselImagesModal = document.getElementById("carouselImagesModal");
     const imagesModal = document.getElementById("ImagesModal");
     const addProductBtn = document.getElementById("addProductBtn");
-    const thumbnailDisplay = document.getElementById('thumbnailDisplay');
+    const thumbnailDisplay = document.getElementById("thumbnailDisplay");
     if (product === null || product === void 0 ? void 0 : product.thumbnail) {
         thumbnailDisplay.src = product.thumbnail;
     }
@@ -40,14 +40,14 @@ export const modal = (modalID, product) => __awaiter(void 0, void 0, void 0, fun
             brandModal.value = product.brand;
             categoryModal.value = product.category;
             thumbnailModal.value = product.thumbnail;
-            imagesModal.value = product.images.join(', ');
-            // Clear existing carousel items and display the carousel 
-            carouselImagesModal.style.display = 'block';
-            carouselImagesInner.innerHTML = '';
+            imagesModal.value = product.images.join(", ");
+            // Clear existing carousel items and display the carousel
+            carouselImagesModal.style.display = "block";
+            carouselImagesInner.innerHTML = "";
             // Populate carousel with product images
             product.images.forEach((image, index) => {
-                const carouselItem = document.createElement('div');
-                carouselItem.className = `carousel-item${index === 0 ? ' active' : ''}`;
+                const carouselItem = document.createElement("div");
+                carouselItem.className = `carousel-item${index === 0 ? " active" : ""}`;
                 carouselItem.innerHTML = `<img src="${image}" class="d-block w-100 carousel-img" alt="Product image">`;
                 carouselImagesInner.appendChild(carouselItem);
             });
@@ -79,7 +79,7 @@ export const modal = (modalID, product) => __awaiter(void 0, void 0, void 0, fun
                 brand: brandModal.value.trim(),
                 category: categoryModal.value.trim(),
                 thumbnail: thumbnailModal.value.trim(),
-                images: imagesModal.value.split(',').map(url => url.trim()),
+                images: imagesModal.value.split(",").map((url) => url.trim()),
             };
             try {
                 const response = yield fetch(`https://dummyjson.com/products/${product === null || product === void 0 ? void 0 : product.id}`, {
@@ -102,7 +102,9 @@ export const modal = (modalID, product) => __awaiter(void 0, void 0, void 0, fun
                         `Brand: ${responseData === null || responseData === void 0 ? void 0 : responseData.brand}\n` +
                         `Category: ${responseData === null || responseData === void 0 ? void 0 : responseData.category}\n` +
                         `Thumbnail: ${responseData === null || responseData === void 0 ? void 0 : responseData.thumbnail}\n` +
-                        `Images: ${Array.isArray(responseData === null || responseData === void 0 ? void 0 : responseData.images) ? responseData.images.join(", ") : responseData === null || responseData === void 0 ? void 0 : responseData.images}`);
+                        `Images: ${Array.isArray(responseData === null || responseData === void 0 ? void 0 : responseData.images)
+                            ? responseData.images.join(", ")
+                            : responseData === null || responseData === void 0 ? void 0 : responseData.images}`);
                     // ... (additional success handling)
                 }
                 else {
@@ -141,7 +143,7 @@ export const modal = (modalID, product) => __awaiter(void 0, void 0, void 0, fun
                 brand: brandModal.value.trim(),
                 category: categoryModal.value.trim(),
                 thumbnail: thumbnailModal.value.trim(),
-                images: imagesModal.value.split(',').map(url => url.trim()),
+                images: imagesModal.value.split(",").map((url) => url.trim()),
             };
             try {
                 const response = yield fetch("https://dummyjson.com/products/add", {
@@ -181,14 +183,14 @@ export const modal = (modalID, product) => __awaiter(void 0, void 0, void 0, fun
             brandModal.value = product.brand;
             categoryModal.value = product.category;
             thumbnailModal.value = product.thumbnail;
-            imagesModal.value = product.images.join(', ');
-            // Clear existing carousel items and display the carousel 
-            carouselImagesModal.style.display = 'block';
-            carouselImagesInner.innerHTML = '';
+            imagesModal.value = product.images.join(", ");
+            // Clear existing carousel items and display the carousel
+            carouselImagesModal.style.display = "block";
+            carouselImagesInner.innerHTML = "";
             // Populate carousel with product images
             product.images.forEach((image, index) => {
-                const carouselItem = document.createElement('div');
-                carouselItem.className = `carousel-item${index === 0 ? ' active' : ''}`;
+                const carouselItem = document.createElement("div");
+                carouselItem.className = `carousel-item${index === 0 ? " active" : ""}`;
                 carouselItem.innerHTML = `<img src="${image}" class="d-block w-100 carousel-img" alt="Product image">`;
                 carouselImagesInner.appendChild(carouselItem);
             });
